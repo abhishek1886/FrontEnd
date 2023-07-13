@@ -1,5 +1,5 @@
 import Expenses from "./components/Expenses/Expenses";
-import ExpenseForm from "./components/Expenses/ExpenseForm"
+import NewExpense from "./components/NewExpense/NewExpense"
 import Card from "./components/UI/Card";
 
 function App() {
@@ -29,10 +29,10 @@ function App() {
   ];
 
   return (
-    <Card>
-      <ExpenseForm />
+    <div>
+      <NewExpense />
       <Expenses items = {expenses} />
-    </Card>
+    </div>
   );
 }
 
