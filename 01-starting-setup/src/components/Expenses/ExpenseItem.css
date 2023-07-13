@@ -41,8 +41,6 @@
   align-items: center;
   justify-content: space-between;
   margin: 0.2rem;
-  flex: 1;
-
 }
 
 @media (min-width: 580px) {
