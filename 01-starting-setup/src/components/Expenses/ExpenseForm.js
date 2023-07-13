@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Card from '../UI/Card';
 
 const ExpenseForm = () => {
 
@@ -9,7 +10,7 @@ const ExpenseForm = () => {
   }
 
   return (
-    <div>
+    <Card className='expenses'>
       <div>
         <label>Expense title: </label>
         <input id='title' />
@@ -23,7 +24,7 @@ const ExpenseForm = () => {
         <input type = "date" id='date' />
       </div>
       <button onClick={display}> Submit </button>
-    </div>
+    </Card>
   );
 }
 
