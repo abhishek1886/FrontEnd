@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
+import AddNewExpense from "./components/NewExpense/AddNewExpense";
 
 const DUMMY_ITEMS = [
   {
@@ -36,16 +37,31 @@ const DUMMY_ITEMS = [
 
 function App() {
   const [expenses, setExpenses] = useState(DUMMY_ITEMS);
+  const [isFormVisible, setFormVisible] = useState(false);
+  const [isAddButtonVisible, setAddButtonVisible] = useState(true);
 
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];
     });
+    setAddButtonVisible(true);
+    setFormVisible(false);
   };
+
+  const addButtonHandler = () => {
+    setFormVisible(true);
+    setAddButtonVisible(false);
+  }
+
+  const cancelHandler = () => {
+    setAddButtonVisible(true);
+    setFormVisible(false);
+  }
 
   return (
     <div>
-      <NewExpense onAddExpense={addExpenseHandler} />
+      {isFormVisible && <NewExpense onCancel= {cancelHandler} onAddExpense={addExpenseHandler} />}
+      {isAddButtonVisible && <AddNewExpense onAddButton={addButtonHandler}/>}
       <Expenses items={expenses} />
     </div>
   );
