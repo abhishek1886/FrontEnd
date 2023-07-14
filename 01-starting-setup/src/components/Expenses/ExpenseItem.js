@@ -28,14 +28,14 @@ function ExpenseItem(props) {
           <ExpenseDetails amount={amount} title={props.title} />
           <div>
             <button
-              style={{ background: "green" }}
+              style={{ background: "green", borderRadius: "5px" }}
               className="button-item"
               onClick={clickHandlerAddAmount}
             >
               +$100
             </button>
             <button
-              style={{ background: "red" }}
+              style={{ background: "red", borderRadius: "5px" }}
               className="button-item"
               onClick={clickHandlerDelete}
             >
