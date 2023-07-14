@@ -8,17 +8,18 @@ import "./ExpenseItem.css";
 function ExpenseItem(props) {
   const [isVisible, setIsVisible] = useState(true);
   const [amount, addAmount] = useState(props.amount)
+  //const [selectedFilterYear, setSelectedFilteredYear] = useState
 
   //Add $100 to current expense
   const clickHandlerAddAmount = () => {
-    addAmount(parseFloat(amount)+100);
+    addAmount(prevAmount => parseInt(prevAmount)+100);
   }
 
   //delete the current expense
   const clickHandlerDelete = () => {
     setIsVisible(false);
   };
-
+  
   return (
     isVisible && (
       <Card className="expense-item" id={props.itemId}>

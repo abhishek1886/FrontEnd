@@ -11,21 +11,7 @@ function Expenses(props) {
     setFilteredYear(selectedYear);
   };
 
-  const expenseItems = [];
-  if (props.items != 0) {
-    for (let i = 0; i < props.items.length; i++) {
-      const expense = props.items[i];
-
-      expenseItems.push(
-        <ExpenseItem
-          title={expense.title}
-          amount={expense.amount}
-          date={expense.date}
-          itemId={expense.id}
-        />
-      );
-    }
-  }
+  console.log(props.items);
 
   return (
     <Card className="expenses">
@@ -33,7 +19,18 @@ function Expenses(props) {
         selected={selectedYear}
         onChangeFilter={filterChangeHandler}
       ></ExpensesFilter>
-      {expenseItems}
+
+      {props.items.map((expense) => {
+        return (
+          <ExpenseItem
+            selected={selectedYear}
+            title={expense.title}
+            amount={expense.amount}
+            date={expense.date}
+            key={expense.id}
+          />
+        );
+      })}
     </Card>
   );
 }
