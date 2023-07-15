@@ -7,29 +7,32 @@ import ExpensesList from "./ExpensesList";
 import ExpensesChart from "./ExpensesChart";
 
 function Expenses(props) {
-  const [selectedYear, setFilteredYear] = useState("All");
-  //const [filteredExpenses, setFilteredExpenses] = useState(props.items);
+  const [selectedYear, setFilteredYear] = useState("all");
+  const [filteredExpenses, setFilteredExpenses] = useState(props.items);
 
   const filterChangeHandler = (selectedYear) => {
     setFilteredYear(selectedYear);
 
-    // setFilteredExpenses(
-
-    // );
+    setFilteredExpenses(
+      props.items.filter((expense) => {
+        return (
+          selectedYear === "all" ||
+          expense.date.getFullYear().toString() === selectedYear
+        );
+      })
+    );
   };
-  const filteredExpenses = props.items.filter((expense) => {
-    return expense.date.getFullYear().toString() === selectedYear;
-  });
-  // useEffect(() => {
-  //   setFilteredExpenses(
-  //     props.items.filter((expense) => {
-  //       return (
-  //         selectedYear === "All" ||
-  //         expense.date.getFullYear().toString() === selectedYear
-  //       );
-  //     })
-  //   );
-  // }, [props.items, selectedYear]);
+
+  useEffect(() => {
+    setFilteredExpenses(
+      props.items.filter((expense) => {
+        return (
+          selectedYear === "all" ||
+          expense.date.getFullYear().toString() === selectedYear
+        );
+      })
+    );
+  }, [props.items, selectedYear]);
 
   return (
     <Card className="expenses">
