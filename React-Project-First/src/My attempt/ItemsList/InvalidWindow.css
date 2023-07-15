@@ -1,0 +1,36 @@
+.container {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.invalid-window {
+  width: 400px;
+  background-color: beige;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.header {
+  background-color: blueviolet;
+  padding: 10px;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.body {
+  
+  padding: 20px;
+  position: relative;
+}
+
+.invalid-button {
+  background-color: blueviolet;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}

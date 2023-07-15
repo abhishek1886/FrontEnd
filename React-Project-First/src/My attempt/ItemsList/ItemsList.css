@@ -1,0 +1,15 @@
+.items-list-display {
+  padding: 1rem;
+  background-color: whitesmoke;
+  margin: 2rem auto;
+  width: 50rem;
+  max-width: 60%;
+  list-style: none;
+  border-radius: 10px;
+}
+
+.items-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
