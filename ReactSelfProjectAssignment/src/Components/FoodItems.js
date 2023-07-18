@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import classes from './Products.module.css';
+
 const FoodItems = (props) => {
   const [displayData, setDisplayData] = useState(props.productsData);
 
@@ -22,7 +24,7 @@ const FoodItems = (props) => {
     });
   };
   return (
-    <div>
+    <div className={classes.container}>
       <h2>Food Items</h2>
       <ul>
         {displayData.map((product) => {
