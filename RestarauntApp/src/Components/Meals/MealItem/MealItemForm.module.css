@@ -1,0 +1,31 @@
+.mealForm {
+  text-align: right;
+}
+
+.mealForm button {
+  font: inherit;
+  cursor: pointer;
+  background-color: #8a2b06;
+  border: 1px solid #8a2b06;
+  color: white;
+  padding: 0.25rem 2rem;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-top: .25rem;
+}
+
+.mealForm button:hover,
+.mealForm button:active {
+  background-color: #641e03;
+  border-color: #641e03;
+}
+
+.mealForm label {
+  font-weight: bold;
+  margin-right: 0.25rem;
+}
+
+.mealForm input {
+  max-width: 2rem;
+
+}
