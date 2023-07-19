@@ -1,15 +1,22 @@
 import React from "react";
 
-import classes from './MealItemForm.module.css'
+import classes from "./MealItemForm.module.css";
+import Input from "../../UI/Input";
 
-const MealItemForm = props => {
-  return <section className={classes.mealForm}>
-    <form>
-      <label htmlFor="amount">Amount</label>
-      <input id="amount" type="number" />
+const MealItemForm = (props) => {
+  return (
+    <form className={classes.form}>
+      <Input label="Amount" input={{
+        id: "amount" + props.id,
+        type:'number',
+        min: '1',
+        max: '5',
+        step: '1',
+        defaultValue: '1'
+      }} />
+      <button>+Add</button>
     </form>
-    <button>+Add</button>
-  </section>
-}
+  );
+};
 
 export default MealItemForm;
