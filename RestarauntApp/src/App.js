@@ -3,22 +3,28 @@ import React, { useState } from "react";
 import Header from "./Components/Layout/Header";
 import Meals from "./Components/Meals/Meals";
 import Cart from "./Components/Cart/Cart";
+import CartProvider from "./store/CartProvider";
 
 function App() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartIsOpen, setCartIsOpen] = useState(false);
 
-  const cartClickHandler = () => {
-    setIsCartOpen(true);
+  const cartIsShown = () => {
+    setCartIsOpen(true);
   }
 
+  const cartIsHidden = () => {
+    setCartIsOpen(false);
+  }
+
+
   return (
-    <React.Fragment>
-      {isCartOpen && <Cart onCartClose={setIsCartOpen} />}
-      <Header onCartClick={cartClickHandler} />
+    <CartProvider>
+      {cartIsOpen && <Cart onCartClose={cartIsHidden} />}
+      <Header onCartClick={cartIsShown} />
       <main>
         <Meals />
       </main>
-    </React.Fragment>
+    </CartProvider>
   );
 }
 
