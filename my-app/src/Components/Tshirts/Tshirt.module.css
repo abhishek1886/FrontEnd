@@ -1,0 +1,47 @@
+.list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0.25rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid #652524;
+}
+
+.list h2 {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 0.25rem;
+}
+
+.list .price {
+  font-weight: bold;
+  color: #652524;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0.25rem;
+}
+
+.actions button {
+  padding: 0.25rem 1rem;
+  background-color: #3e66f8;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.actions button:hover,
+.actions button:active {
+  background-color: #224de9;
+}
+
+.actions button:disabled {
+  background-color: #ccc;
+  border: 1px solid #3e66f8;
+  cursor: default;
+}

@@ -10,6 +10,9 @@ const CartItems = (props) => {
     cartCtx.removeItem(e.target.id);
   }
 
+  const addItemHandler = (e) => {
+    cartCtx.addItem({id: e.target.id, quantity: 1})
+  }
 
   const cartItems = (
     <ul className={classes["cart-items"]}>
@@ -25,7 +28,7 @@ const CartItems = (props) => {
 
           <div>
             <button type="button" onClick={removeItemHandler} id={item.id}>-</button>
-            <button type="button" id={item.id}>+</button>
+            <button type="button" onClick={addItemHandler} id={item.id}>+</button>
           </div>
         </li>
       ))}

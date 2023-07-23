@@ -1,0 +1,15 @@
+.tshirts {
+  max-width: 40rem;
+  margin: 1rem auto;
+  width: 90%;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  background-color: #b0b7cc;
+}
+
+.tshirts ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

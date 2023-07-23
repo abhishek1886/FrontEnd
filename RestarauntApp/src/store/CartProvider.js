@@ -6,7 +6,6 @@ const CartProvider = props => {
   const [cartItems, setCartItems] = useState([]);
   
   const addItemToCartHandler = (item) => {
-    console.log();
     setCartItems(prevItems => {
       const existingItemIndex = prevItems.findIndex(i => i.id === item.id);
       const existingItem = prevItems[existingItemIndex];

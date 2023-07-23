@@ -1,0 +1,53 @@
+.form {
+  max-width: 40rem;
+  margin: 1rem auto;
+  margin-top: 150px;
+  width: 90%;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  background-color: #b0b7cc;
+  display: flex;
+  flex-direction: column;
+}
+
+.form label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.form input {
+  border: none;
+  padding: 0.25rem;
+  margin-bottom: 0.25rem;
+  border-radius: 3px;
+  width: 15rem;
+}
+
+.quantity label {
+  width: 10rem;
+  margin-right: 10px;
+}
+.quantity input {
+  margin-right: 1rem;
+  width: 3rem;
+}
+
+.button {
+text-align: right;
+margin: 0.5rem 2rem;
+}
+
+.button button {
+  padding: 0.5rem 2rem;
+  border: 2px solid #652524;
+  background-color: #652524;
+  color: white;
+  font-weight: bold;
+  border-radius: 15px;
+}
+
+.button button:hover,
+.button button:active {
+  background-color: #a22c2a;
+}
