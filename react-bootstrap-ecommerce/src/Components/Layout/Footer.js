@@ -10,21 +10,21 @@ const Footer = (props) => {
           <img
             src="https://img.freepik.com/free-icon/youtube_318-566773.jpg?w=2000"
             alt="youtube logo"
-            fluid style={{ width: "30px", height: "30px" }}
+             style={{ width: "30px", height: "30px" }}
           />
         </a>
         <a href="https://spotify.com" className="m-3">
           <img
             src="https://www.freepnglogos.com/uploads/spotify-logo-png/spotify-icon-pink-logo-33.png"
             alt="youtube logo"
-            fluid style={{ width: "30px", height: "30px" }}
+             style={{ width: "30px", height: "30px" }}
           />
         </a>
         <a href="https://facebook.com" className="m-3">
           <img
             src="https://www.edigitalagency.com.au/wp-content/uploads/facebook-icon-white-png.png"
             alt="youtube logo"
-            fluid style={{ width: "30px", height: "30px" }}
+             style={{ width: "30px", height: "30px" }}
           />
         </a>
       </div>

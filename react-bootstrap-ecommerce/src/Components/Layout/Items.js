@@ -30,7 +30,7 @@ const productsArr = [
 const Items = () => {
   const itemsData = productsArr.map((item) => {
     return (
-      <Col className="col-6 md-12 g-5">
+      <Col className="col-6 md-12 g-5" key={item.imageUrl}>
         <h3 className="py-3">{item.title}</h3>
         <Container>
           <img src={item.imageUrl} alt={item.title} />
