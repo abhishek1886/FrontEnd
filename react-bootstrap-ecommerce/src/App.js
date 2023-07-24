@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 
 import Header from "./Components/Layout/Header";
-import Items from "./Components/Layout/Items";
+import AvailableItems from "./Components/Layout/AvailableItems";
 import Footer from "./Components/Layout/Footer";
-
+import { CartContextProvider } from "./store/cart-context";
 
 function App() {
-
   return (
-    <React.Fragment>
+    <CartContextProvider>
       <Header />
-      <Items />
+      <AvailableItems />
       <Footer />
-    </React.Fragment>
+    </CartContextProvider>
   );
 }
 

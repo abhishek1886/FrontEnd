@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Button, Modal, Table, Form } from "react-bootstrap";
+import CartContext from "../../store/cart-context";
 
 const cartElements = [
   {
@@ -26,7 +27,9 @@ const cartElements = [
 ];
 
 const Cart = (props) => {
-  const cartItems = cartElements.map((item) => {
+  const cartCtx = useContext(CartContext);
+
+  const cartItems = cartCtx.items.map((item) => {
     return (
       <tr className="mb-2">
         <td>
@@ -43,6 +46,9 @@ const Cart = (props) => {
       </tr>
     );
   });
+
+  const total = cartCtx.items.reduce((total, item) => (total + item.price), 0)
+
   return (
     <Modal show={props.show} onHide={props.onClose} backdrop={false}>
       <Modal.Header closeButton>
@@ -61,7 +67,7 @@ const Cart = (props) => {
         </Table>
       </Modal.Body>
       <Modal.Footer >
-        <h2 className="d-block text-end">Total</h2>
+        <h2 className="d-block text-end">${total}</h2>
         <Button variant="secondary" className="btn d-block">Purchase</Button>
       </Modal.Footer>
     </Modal>

@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { Container, Navbar, Nav, Card, Button } from "react-bootstrap";
-import Cart from "./Cart/Cart";
-import CartCollapse from "./Cart/CartCollapse";
+import Cart from "../Cart/Cart";
+import CartContext from "../../store/cart-context";
 
 const Header = (props) => {
   const [cartIsOpen, setCartIsOpen] = useState(false);
+  const cartCtx = useContext(CartContext);
 
   const showCartHandler = () => {setCartIsOpen(true)};
   const hideCartHandler = () => {setCartIsOpen(false)};
-  console.log(cartIsOpen);
+
+  const totalItems = cartCtx.items.length;
 
   return (
     <header>
@@ -23,7 +25,7 @@ const Header = (props) => {
           </Nav>
         </Container>
         <Button variant="outline-info" onClick={showCartHandler} className="text-white me-1">Cart</Button>
-        <h5 className="text-info me-3">0</h5>
+        <h5 className="text-info me-3">{totalItems}</h5>
         
       </Navbar>
       <p className="display-1 text-center bg-secondary py-5 text-white fw-bold">The Generics</p>
