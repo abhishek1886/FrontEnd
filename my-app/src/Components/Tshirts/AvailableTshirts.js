@@ -1,14 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import classes from "./AvailableTshirts.module.css";
 import AvailableTshirtsContext from "../store/availableTshirt-context";
 import Tshirts from "./Tshirts";
 
 const AvailableTshirts = (props) => {
+  const [availableTshirtsFlase, setAvailableTshirtsFalse] = useState(true);
+
   const availableTshirtCtx = useContext(AvailableTshirtsContext);
+  
+  useEffect(() => {
+    if(availableTshirtCtx.tshirts.length > 0) setAvailableTshirtsFalse(false);
+    else setAvailableTshirtsFalse(true);
+  }, [availableTshirtCtx.tshirts])
 
   return (
     <div className={classes.tshirts}>
+      {availableTshirtsFlase && <h3>Please add tshirts!</h3>}
       <ul>
         {availableTshirtCtx.tshirts.map((tshirt) => (
           <Tshirts
