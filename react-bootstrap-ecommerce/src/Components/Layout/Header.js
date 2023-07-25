@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 
+import { Link } from "react-router-dom";
 import { Container, Navbar, Nav, Card, Button } from "react-bootstrap";
 import Cart from "../Cart/Cart";
 import CartContext from "../../store/cart-context";
@@ -19,9 +20,15 @@ const Header = (props) => {
       <Navbar bg="black" variant="dark" expand="sm" fixed="top" className="py-1" style={{borderBottom: '2px solid white'}}>
         <Container>
           <Nav className="me-auto mx-auto">
-            <Nav.Link href="/home" className="fw-bold text-white">HOME</Nav.Link>
-            <Nav.Link href="/store" className="fw-bold text-white">STORE</Nav.Link>
-            <Nav.Link href="/about" className="fw-bold text-white">ABOUT</Nav.Link>
+            <Nav.Item>
+              <Link to="/home" className="nav-link fw-bold text-white">HOME</Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Link to="/store" className="nav-link fw-bold text-white">STORE</Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Link to="/about" className="nav-link fw-bold text-white">ABOUT</Link>
+            </Nav.Item>
           </Nav>
         </Container>
         <Button variant="outline-info" onClick={showCartHandler} className="text-white me-1">Cart</Button>
