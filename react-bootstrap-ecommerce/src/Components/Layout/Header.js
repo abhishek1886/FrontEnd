@@ -19,9 +19,9 @@ const Header = (props) => {
       <Navbar bg="black" variant="dark" expand="sm" fixed="top" className="py-1" style={{borderBottom: '2px solid white'}}>
         <Container>
           <Nav className="me-auto mx-auto">
-            <Nav.Link href="#home" className="fw-bold text-white">HOME</Nav.Link>
-            <Nav.Link href="#features" className="fw-bold text-white">STORE</Nav.Link>
-            <Nav.Link href="#pricing" className="fw-bold text-white">ABOUT</Nav.Link>
+            <Nav.Link href="/home" className="fw-bold text-white">HOME</Nav.Link>
+            <Nav.Link href="/store" className="fw-bold text-white">STORE</Nav.Link>
+            <Nav.Link href="/about" className="fw-bold text-white">ABOUT</Nav.Link>
           </Nav>
         </Container>
         <Button variant="outline-info" onClick={showCartHandler} className="text-white me-1">Cart</Button>

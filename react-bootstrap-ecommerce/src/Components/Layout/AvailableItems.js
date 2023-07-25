@@ -36,6 +36,7 @@ const AvailableItems = () => {
       title={item.title}
       price={item.price}
       imageUrl={item.imageUrl}
+      quantity={1}
     />
   ));
   return (
