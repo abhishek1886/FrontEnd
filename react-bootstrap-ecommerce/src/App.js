@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from 'react-router-dom';
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import AvailableItems from "./Components/Layout/AvailableItems";
 import AboutPage from "./pages/About";
@@ -7,6 +7,7 @@ import HomePage from "./pages/Home";
 import Header from "./Components/Layout/Header";
 import Footer from "./Components/Layout/Footer";
 import ContactUs from "./pages/ContactUs";
+import ProdcutDetail from "./pages/ProductDetail";
 
 // const router = createBrowserRouter([
 //   {
@@ -24,18 +25,30 @@ function App() {
   return (
     <React.Fragment>
       <Header />
-      <Route path='/home'>
-        <HomePage />
-      </Route>
-      <Route path='/store'>
-        <AvailableItems />
-      </Route>
-      <Route path='/about'>
-        <AboutPage />
-      </Route>
-      <Route path='/contactus'>
-        <ContactUs />
-      </Route>
+      
+      <main>
+        <Switch>
+          <Route path='/' exact>
+            <Redirect to="/store" />
+          </Route>
+          <Route path="/home">
+            <HomePage />
+          </Route>
+          <Route path="/store">
+            <AvailableItems />
+          </Route>
+          <Route path="/about">
+            <AboutPage />
+          </Route>
+          <Route path="/contactus">
+            <ContactUs />
+          </Route>
+          <Route path="/products/:productId">
+            <ProdcutDetail />
+          </Route>
+        </Switch>
+      </main>
+
       <Footer />
     </React.Fragment>
   );
