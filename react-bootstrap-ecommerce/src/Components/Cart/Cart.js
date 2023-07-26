@@ -3,43 +3,24 @@ import React, { useContext } from "react";
 import { Button, Modal, Table, Form } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
 
-const cartElements = [
-  {
-    title: "Colors",
-    price: 100,
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-    quantity: 2,
-  },
-
-  {
-    title: "Black and white Colors",
-    price: 50,
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-    quantity: 3,
-  },
-
-  {
-    title: "Yellow and Black Colors",
-    price: 70,
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-    quantity: 1,
-  },
-];
-
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
 
+  const removeItemHandler = (e) => {
+    cartCtx.removeItem(e.target.id);
+  }
+
   const cartItems = cartCtx.items.map((item) => {
     return (
-      <tr className="mb-2">
+      <tr className="mb-2" key={item.id}>
         <td>
           <img src={item.imageUrl} style={{ width: "75px" }} />
           {item.title}
         </td>
         <td>{item.price}</td>
         <td className="d-flex align-items-center justify-content-center">
-          <Form.Control type="text" size="sm" value={item.quantity} style={{width: '2rem'}}/>
-          <Button variant="danger" className="btn-sm m-2" >
+          <Form.Control type="text" size="sm" value={item.quantity} onChange={() => {}} style={{width: '2rem'}}/>
+          <Button variant="danger" className="btn-sm m-2" onClick={removeItemHandler} id={item.id} >
             Remove
           </Button>
         </td>

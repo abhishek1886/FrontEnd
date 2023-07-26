@@ -2,27 +2,32 @@ import React, { useContext } from "react";
 
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import Items from "../Items/Items";
+import CartContext from "../../store/cart-context";
 
 const productsArr = [
   {
+    id: '1',
     title: "Colors",
     price: 100,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
   },
 
   {
+    id: '2',
     title: "Black and white Colors",
     price: 50,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
   },
 
   {
+    id: '3',
     title: "Yellow and Black Colors",
     price: 70,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
   },
 
   {
+    id: '4',
     title: "Blue Color",
     price: 100,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%204.png",
@@ -30,13 +35,16 @@ const productsArr = [
 ];
 
 const AvailableItems = () => {
+  const cartCtx = useContext(CartContext);
+
   const itemsData = productsArr.map((item) => (
     <Items
-      key={item.imageUrl}
+      key={item.id}
       title={item.title}
       price={item.price}
       imageUrl={item.imageUrl}
       quantity={1}
+      id={item.id}
     />
   ));
   return (
@@ -48,7 +56,7 @@ const AvailableItems = () => {
         </Container>
       </Container>
       <Container className="text-center my-4">
-        <Button className="btn-secondary text-info fw-bold ">
+        <Button className="btn-secondary text-info fw-bold " onClick={cartCtx.setCartDisplay}>
           See the Cart
         </Button>
       </Container>

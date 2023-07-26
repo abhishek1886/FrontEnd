@@ -11,16 +11,16 @@ const AboutPage = () => {
         </Col>
       </Row>
       <Row>
-        <Col style={{float: "left"}}>
+        <Col style={{ float: "left" }}>
           <Image
             src="https://github.com/prasadyash2411/ecom-website/blob/main/img/Band%20Members.png?raw=true"
             alt="band members"
             roundedCircle
-            style={{ width: "200px", float: "left"}}
+            style={{ width: "200px", float: "left" }}
           />
         </Col>
         <Col style={{ float: "none" }}>
-          <p >
+          <p>
             Lorem ipsum carrots enhanced rebates. Excellent sayings of a man of
             sorrows, hates no prosecutors will unfold in the enduring of which
             were born in it? Often leads smallest mistake some pain main

@@ -22,11 +22,9 @@ const AddMovies = (props) => {
 
     const inputMovieData = {
       ...formData,
-      id: Math.random().toString(),
     };
 
-    // props.onSubmit(inputMovieData);
-    console.log(inputMovieData);
+    props.onSubmit(inputMovieData);
     setFormData({
       title: "",
       openingText: "",
