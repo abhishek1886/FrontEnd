@@ -28,6 +28,9 @@ const Header = (props) => {
             <Nav.Item>
               <Nav.Link as={NavLink} exact to="/contactus" className="nav-link fw-bold text-white">CONTACT US</Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={NavLink} exact to="/auth" className="nav-link fw-bold text-white">LogIn</Nav.Link>
+            </Nav.Item>
           </Nav>
         </Container>
         <Button variant="outline-info" onClick={cartCtx.setCartDisplay} className="text-white me-1">Cart</Button>

@@ -30,6 +30,10 @@ const AuthForm = () => {
     setIsLogin((prevState) => !prevState);
   };
 
+  const handleAutoLogOut = () => {
+    localStorage.removeItem('key');
+  }
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -73,6 +77,9 @@ const AuthForm = () => {
         authCtx.login(data.idToken);
         history.replace('/');
         localStorage.setItem('key', data.idToken);
+        setTimeout(() => {
+          handleAutoLogOut();
+        }, 300000);
       })
       .catch((err) => {
         alert(err);

@@ -8,6 +8,7 @@ import Header from "./Components/Layout/Header";
 import Footer from "./Components/Layout/Footer";
 import ContactUs from "./pages/ContactUs";
 import ProdcutDetail from "./pages/ProductDetail";
+import AuthPage from "./pages/AuthPage"
 
 // const router = createBrowserRouter([
 //   {
@@ -43,9 +44,13 @@ function App() {
           <Route path="/contactus">
             <ContactUs />
           </Route>
+          <Route path='/auth'>
+            <AuthPage />
+          </Route>
           <Route path="/products/:productId">
             <ProdcutDetail />
           </Route>
+
         </Switch>
       </main>
 
