@@ -1,4 +1,5 @@
 import { useState, useRef, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
 import AuthContext from "./auth-context";
@@ -12,6 +13,7 @@ const AuthForm = () => {
     password: "",
   });
 
+  const history = useHistory();
   const authCtx = useContext(AuthContext);
 
   const formInputHandler = (e) => {
@@ -56,6 +58,7 @@ const AuthForm = () => {
 
         if (response.ok) {
           return response.json();
+          
         } else {
           return response.json().then((data) => {
             let errorMsg = "Authentication failed!";
@@ -68,6 +71,8 @@ const AuthForm = () => {
       })
       .then((data) => {
         authCtx.login(data.idToken);
+        history.replace('/');
+        localStorage.setItem('key', data.idToken);
       })
       .catch((err) => {
         alert(err);
