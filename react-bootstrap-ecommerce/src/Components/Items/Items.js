@@ -3,12 +3,31 @@ import { Link } from "react-router-dom";
 
 import { Col, Row, Container, Button } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
+import AuthContext from "../auth/auth-context";
 
 const Items = (props) => {
   const cartCtx = useContext(CartContext);
+  const authCtx = useContext(AuthContext);
 
-  const addItemHandler = () => {
-    cartCtx.addItems(props);
+  const addItemHandler = async () => {
+    try {
+      const email = authCtx.email.replace(/[@.]/g, "");
+      console.log(email);
+      const response = await fetch(
+        `https://crudcrud.com/api/584eec8fdb084932b2e2edcda0819416/cart${email}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            ...props,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      cartCtx.addItems({ ...props, id: data._id });
+    } catch (err) {}
   };
 
   return (

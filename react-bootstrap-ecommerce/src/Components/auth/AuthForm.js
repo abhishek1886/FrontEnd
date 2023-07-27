@@ -44,8 +44,6 @@ const AuthForm = () => {
         returnSecureToken: true,
       };
 
-      console.log(inputData);
-
       setisLoading(true);
       let url;
       if (isLogin) {
@@ -53,8 +51,6 @@ const AuthForm = () => {
       } else {
         url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
       }
-
-      console.log(url);
 
       const response = await fetch(url, {
         method: "POST",
@@ -64,10 +60,17 @@ const AuthForm = () => {
         },
       });
 
-      const data = await response.json();
-      authCtx.login(data.idToken);
-      localStorage.setItem("key", data.idToken);
-      history.replace('/store');
+      console.log(response);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        authCtx.login({ email: data.email, token: data.idToken });
+        localStorage.setItem("key", data.idToken);
+        localStorage.setItem("email", data.email);
+        history.replace("/store");
+      } else {
+        throw new Error('Authentication failed. Try again!')
+      }
     } catch (err) {
       alert(err);
     }
@@ -100,7 +103,11 @@ const AuthForm = () => {
             <Button variant="info" type="submit">
               {isLogin ? "Log In" : "Sign Up"}
             </Button>
-            <Button variant="border-white" className="border-none" onClick={switchAuthModeHandler}>
+            <Button
+              variant="border-white"
+              className="border-none"
+              onClick={switchAuthModeHandler}
+            >
               {isLogin ? "Create new account" : "Log in with existing account"}
             </Button>
           </div>

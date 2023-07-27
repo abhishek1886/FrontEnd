@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import AvailableItems from "./Components/Layout/AvailableItems";
@@ -9,34 +9,35 @@ import Footer from "./Components/Layout/Footer";
 import ContactUs from "./pages/ContactUs";
 import ProdcutDetail from "./pages/ProductDetail";
 import AuthPage from "./pages/AuthPage"
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <RootLayout />,
-//     children: [
-//       { path: "/store", element: <AvailableItems /> },
-//       { path: "/about", element: <AboutPage /> },
-//       { path: "/home", element: <HomePage /> }
-//     ]
-//   }
-// ]);
+import AuthContext from "./Components/auth/auth-context";
 
 function App() {
+  const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    const token = localStorage.getItem('key');
+    const email = localStorage.getItem('email')
+    if(token && email){
+      authCtx.login({token: token, email: email});
+    }
+    
+  }, [])
+
   return (
     <React.Fragment>
       <Header />
-      
+
       <main>
         <Switch>
           <Route path='/' exact>
-            <Redirect to="/store" />
+            <Redirect to="/home" />
           </Route>
           <Route path="/home">
             <HomePage />
           </Route>
           <Route path="/store">
-            <AvailableItems />
+            {authCtx.isLoggIn && <AvailableItems />}
+            {!authCtx.isLoggIn && <Redirect to='/auth' />}
           </Route>
           <Route path="/about">
             <AboutPage />
@@ -44,13 +45,15 @@ function App() {
           <Route path="/contactus">
             <ContactUs />
           </Route>
-          <Route path='/auth'>
+          {!authCtx.isLoggIn && <Route path='/auth'>
             <AuthPage />
-          </Route>
+          </Route>}
           <Route path="/products/:productId">
             <ProdcutDetail />
           </Route>
-
+          <Route path="*">
+            <Redirect to='/home' />
+          </Route>
         </Switch>
       </main>
 

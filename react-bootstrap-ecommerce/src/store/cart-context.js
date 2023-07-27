@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ListGroupItem } from "react-bootstrap";
 
 const CartContext = React.createContext({
   items: [],
@@ -8,8 +9,11 @@ const CartContext = React.createContext({
 export const CartContextProvider = (props) => {
   const [cartItems, setCartItems] = useState([]);
   const [cartIsOpen, setCartIsopen] = useState(false);
+  const [isDataFetched, setIsDataFetched] = useState(false);
 
   const addItemHandler = (item) => {
+    console.log(item);
+    console.log(cartItems);
     setCartItems((prevItems) => [...prevItems, item]);
   };
 
@@ -25,6 +29,12 @@ export const CartContextProvider = (props) => {
     setCartIsopen(prevState => !prevState);
   }
 
+  const setIsDataFetchedHandler = () => {
+    setIsDataFetched(prev => !prev);
+  }
+
+  const logoutHandler = () => {setCartItems([])};
+
   return (
     <CartContext.Provider
       value={{
@@ -32,7 +42,10 @@ export const CartContextProvider = (props) => {
         addItems: addItemHandler,
         removeItem: removeItemHandler,
         cartIsOpen: cartIsOpen,
-        setCartDisplay: cartDisplayHandler
+        setCartDisplay: cartDisplayHandler,
+        isDataFetched: isDataFetched,
+        setIsDataFetched: setIsDataFetchedHandler,
+        logout: logoutHandler
       }}
     >
       {props.children}

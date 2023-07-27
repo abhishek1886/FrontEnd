@@ -4,11 +4,18 @@ import { Link, NavLink } from "react-router-dom";
 import { Container, Navbar, Nav, Card, Button } from "react-bootstrap";
 import Cart from "../Cart/Cart";
 import CartContext from "../../store/cart-context";
+import AuthContext from "../auth/auth-context";
 
 const Header = (props) => {
   const cartCtx = useContext(CartContext);
+  const authCtx = useContext(AuthContext);
 
   const totalItems = cartCtx.items.length;
+
+  const logoutHandler = () => {
+    authCtx.logout();
+    cartCtx.logout();
+  }
 
   return (
     <header>
@@ -28,11 +35,12 @@ const Header = (props) => {
             <Nav.Item>
               <Nav.Link as={NavLink} exact to="/contactus" className="nav-link fw-bold text-white">CONTACT US</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            {!authCtx.isLoggIn && <Nav.Item>
               <Nav.Link as={NavLink} exact to="/auth" className="nav-link fw-bold text-white">LogIn</Nav.Link>
-            </Nav.Item>
+            </Nav.Item>}
           </Nav>
         </Container>
+        {authCtx.isLoggIn && <Button variant="outline-info" onClick={logoutHandler} className="text-white me-1">Log Out</Button>}
         <Button variant="outline-info" onClick={cartCtx.setCartDisplay} className="text-white me-1">Cart</Button>
         <h5 className="text-info me-3">{totalItems}</h5>
         
