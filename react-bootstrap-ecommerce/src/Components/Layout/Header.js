@@ -12,6 +12,10 @@ const Header = (props) => {
 
   const totalItems = cartCtx.items.length;
 
+  const activeStyleLink = {
+    textDecoration: "underline",
+  }
+
   const logoutHandler = () => {
     authCtx.logout();
     cartCtx.logout();
@@ -24,19 +28,19 @@ const Header = (props) => {
         <Container>
           <Nav className="me-auto mx-auto">
             <Nav.Item>
-              <Nav.Link as={NavLink} exact to="/home" className="nav-link fw-bold text-white" >HOME</Nav.Link>
+              <Nav.Link as={NavLink} activeStyle={activeStyleLink} exact to="/home" className="nav-link fw-bold text-white" >HOME</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={NavLink} exact to="/store" className="nav-link fw-bold text-white">STORE</Nav.Link>
+              <Nav.Link as={NavLink} activeStyle={activeStyleLink} exact to="/store" className="nav-link fw-bold text-white">STORE</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={NavLink} exact to="/about" className="nav-link fw-bold text-white">ABOUT</Nav.Link>
+              <Nav.Link as={NavLink} activeStyle={activeStyleLink} exact to="/about" className="nav-link fw-bold text-white">ABOUT</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={NavLink} exact to="/contactus" className="nav-link fw-bold text-white">CONTACT US</Nav.Link>
+              <Nav.Link as={NavLink} activeStyle={activeStyleLink} exact to="/contactus" className="nav-link fw-bold text-white">CONTACT US</Nav.Link>
             </Nav.Item>
             {!authCtx.isLoggIn && <Nav.Item>
-              <Nav.Link as={NavLink} exact to="/auth" className="nav-link fw-bold text-white">LogIn</Nav.Link>
+              <Nav.Link as={NavLink} activeStyle={activeStyleLink} exact to="/auth" className="nav-link fw-bold text-white">LogIn</Nav.Link>
             </Nav.Item>}
           </Nav>
         </Container>

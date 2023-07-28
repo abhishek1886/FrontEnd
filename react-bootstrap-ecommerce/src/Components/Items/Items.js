@@ -11,22 +11,25 @@ const Items = (props) => {
 
   const addItemHandler = async () => {
     try {
+      cartCtx.addItems(props);
       const email = authCtx.email.replace(/[@.]/g, "");
       console.log(email);
       const response = await fetch(
-        `https://crudcrud.com/api/584eec8fdb084932b2e2edcda0819416/cart${email}`,
+        `https://crudcrud.com/api/a4194fccc2854f2e94f1060324a5ab35/cart${email}`,
         {
           method: "POST",
           body: JSON.stringify({
-            ...props,
+            ...props
           }),
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
+      console.log(response);
       const data = await response.json();
-      cartCtx.addItems({ ...props, id: data._id });
+      console.log(data);
+      //cartCtx.addItems({ ...props, id: data._id });
     } catch (err) {}
   };
 

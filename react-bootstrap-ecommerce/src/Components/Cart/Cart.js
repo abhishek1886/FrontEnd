@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { Button, Modal, Table, Form } from "react-bootstrap";
+import { Button, Modal, Table, Form, CardGroup } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
 import AuthContext from "../auth/auth-context";
 
@@ -8,33 +8,34 @@ const Cart = (props) => {
   const cartCtx = useContext(CartContext);
   const authCtx = useContext(AuthContext);
 
-  const removeItemHandler = async (e) => {
-    try {
-      const currentId = e.target.id;
-      const item = cartCtx.items.filter(item => item.id === currentId);
-      const id = item[0]._id;
-      const email = authCtx.email.replace(/[@.]/g, "");
-      console.log(id);
-      cartCtx.removeItem(currentId);
-      await fetch(
-        `https://crudcrud.com/api/584eec8fdb084932b2e2edcda0819416/cart${email}/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-    } catch (err) {
-      alert(err);
-    }
+  const removeItemHandler =  (e) => {
+    // try {
+    //   const currentId = e.target.id;
+    //   const item = cartCtx.items.filter(item => item.id === currentId);
+    //   const id = item[0]._id;
+    //   const email = authCtx.email.replace(/[@.]/g, "");
+    //   console.log(id);
+    //   cartCtx.removeItem(currentId);
+    //   await fetch(
+    //     `https://crudcrud.com/api/584eec8fdb084932b2e2edcda0819416/cart${email}/${id}`,
+    //     {
+    //       method: "DELETE",
+    //     }
+    //   );
+    // } catch (err) {
+    //   alert(err);
+    // }
+    cartCtx.removeItem(e.target.id);
   };
 
   const { isDataFetched } = cartCtx;
 
   useEffect(() => {
-    if (authCtx.token && !isDataFetched) {
+    if (authCtx.token && cartCtx.items.length === 0 && !isDataFetched ) {
       cartCtx.setIsDataFetched();
       const email = authCtx.email.replace(/[@.]/g, "");
       fetch(
-        `https://crudcrud.com/api/584eec8fdb084932b2e2edcda0819416/cart${email}`
+        `https://crudcrud.com/api/a4194fccc2854f2e94f1060324a5ab35/cart${email}`
       )
         .then((res) => {
           if (res.ok) {

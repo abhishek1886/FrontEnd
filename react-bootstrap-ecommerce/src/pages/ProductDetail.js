@@ -38,7 +38,6 @@ const ProdcutDetail = () => {
   console.log(params.productId);
 
   const product = productsArr.find((data) => data.id === params.productId);
-  console.log(product.id);
 
   return (
     <>

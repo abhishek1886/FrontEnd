@@ -13,7 +13,7 @@ const AuthForm = () => {
     email: "",
     password: "",
   });
-
+  const [isLogin, setIsLogin] = useState(true);
   const history = useHistory();
   const authCtx = useContext(AuthContext);
 
@@ -24,8 +24,6 @@ const AuthForm = () => {
       [name]: value,
     }));
   };
-
-  const [isLogin, setIsLogin] = useState(true);
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -60,16 +58,21 @@ const AuthForm = () => {
         },
       });
 
-      console.log(response);
-      if (response.ok) {
+      setisLoading(false);
+      if (response.ok && isLogin) {
         const data = await response.json();
-        console.log(data);
         authCtx.login({ email: data.email, token: data.idToken });
         localStorage.setItem("key", data.idToken);
         localStorage.setItem("email", data.email);
         history.replace("/store");
+      } else if (response.ok && !isLogin) {
+        setIsLogin(true);
+        setFormData({
+          email: "",
+          password: "",
+        });
       } else {
-        throw new Error('Authentication failed. Try again!')
+        throw new Error("Authentication failed. Try again!");
       }
     } catch (err) {
       alert(err);
@@ -100,9 +103,12 @@ const AuthForm = () => {
             value={formData.password}
           />
           <div className="d-flex flex-column align-items-center justify-content-center gap-2  mt-2">
-            <Button variant="info" type="submit">
-              {isLogin ? "Log In" : "Sign Up"}
-            </Button>
+            {isLoading && <p>Loading...</p>}
+            {!isLoading && (
+              <Button variant="info" type="submit">
+                {isLogin ? "Log In" : "Sign Up"}
+              </Button>
+            )}
             <Button
               variant="border-white"
               className="border-none"

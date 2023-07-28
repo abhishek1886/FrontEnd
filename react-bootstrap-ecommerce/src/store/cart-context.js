@@ -12,8 +12,6 @@ export const CartContextProvider = (props) => {
   const [isDataFetched, setIsDataFetched] = useState(false);
 
   const addItemHandler = (item) => {
-    console.log(item);
-    console.log(cartItems);
     setCartItems((prevItems) => [...prevItems, item]);
   };
 
