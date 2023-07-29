@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import SignUp from "./Components/Layout/SignUp";
-import Login from "./Components/Layout/LogIn";
+import SignUp from "./Components/Layout/Input/SignUp";
+import Login from "./Components/Layout/Input/LogIn";
 import Header from "./Components/Layout/Header";
 import Home from "./Components/Layout/Home";
 import AuthContext from "./Components/auth/auth-context";
+import Profile from "./Components/Layout/Input/Profile";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
@@ -26,6 +27,9 @@ const App = () => {
             {authCtx.isLoggedIn && <Home />}
             {!authCtx.isLoggedIn && <Redirect to="/" />}
           </Route>
+          {authCtx.isLoggedIn && <Route path='/profile'>
+            <Profile />
+          </Route>}
         </Switch>
       </main>
     </React.Fragment>

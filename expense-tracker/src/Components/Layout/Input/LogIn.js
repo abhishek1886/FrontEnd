@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 
 import { Card, Form, Container, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import AuthContext from "../auth/auth-context";
+import AuthContext from "../../auth/auth-context";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
 
