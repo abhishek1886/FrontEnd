@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { Card, Form, Container, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import AuthContext from "../auth/auth-context";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
 
-const SignUp = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    confirmPassword: "",
   });
+
+  const authCtx = useContext(AuthContext);
+  const history = useHistory();
 
   const formInputHandler = (e) => {
     const { name, value } = e.target;
@@ -26,39 +29,39 @@ const SignUp = () => {
 
       const inputData = { ...formData, returnSecureToken: true };
       console.log(inputData);
-      if (inputData.password !== inputData.confirmPassword) {
-        alert("please set correct password");
-      } else {
-        const res = await fetch(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`,
-          {
-            method: "POST",
-            body: JSON.stringify(inputData),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
 
-        if (res.ok) {
-          const data = await res.json();
-          setFormData({
-            email: "",
-            password: "",
-            confirmPassword: "",
-          });
-        } else {
-          throw new Error("Something went wrong! Try again.");
+      const res = await fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`,
+        {
+          method: "POST",
+          body: JSON.stringify(inputData),
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem("key", data.idToken);
+        authCtx.login(data.idToken);
+        history.push('/home');
+        setFormData({
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+      } else {
+        throw new Error("Something went wrong! Try again.");
       }
     } catch (err) {
       alert(err.message);
     }
   };
   return (
-    <Container className="mx-5 mx-auto" style={{ maxWidth: "450px", marginTop: "150px" }}>
+    <Container className="mx-5 mx-auto" style={{ maxWidth: "450px", marginTop: "150px"}}>
       <Card className="p-3 px-4">
-        <h2 className="py-3 text-center">Sign Up</h2>
+        <h2 className="py-3 text-center">Login</h2>
         <Form onSubmit={submitHandler}>
           <Form.Floating className="mb-2">
             <Form.Control
@@ -84,23 +87,11 @@ const SignUp = () => {
             />
             <label htmlFor="password">Password</label>
           </Form.Floating>
-          <Form.Floating className="mb-2">
-            <Form.Control
-              id="confirmPassword"
-              type="password"
-              placeholder="confirmPassword"
-              name="confirmPassword"
-              onChange={formInputHandler}
-              value={formData.confirmPassword}
-              required
-            />
-            <label htmlFor="confirmPassword">Confirm Password</label>
-          </Form.Floating>
           <div className="d-flex flex-column align-items-center justify-content-center gap-2  mt-2">
-            <Button type="submit">Sign Up</Button>
-            <Link to='/login' >
+            <Button type="submit">Login</Button>
+            <Link to='/'>
               <Button variant="boder-info">
-                Already have an account? Login
+                Don't have an account? Signup
               </Button>
             </Link>
           </div>
@@ -110,4 +101,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;
