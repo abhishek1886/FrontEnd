@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { Container, Form, Card, Button } from "react-bootstrap";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import AuthContext from "../../auth/auth-context";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
@@ -21,6 +21,37 @@ const Profile = () => {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    if (authCtx.isLoggedIn) {
+      const payload = { idToken: authCtx.token };
+      fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${key}`,
+        {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error();
+          }
+        })
+        .then((data) => {
+          console.log(data.users[0].displayName);
+          setFormData({
+            name: data.users[0].displayName,
+            url: data.users[0].photoUrl
+          });
+        })
+        .catch(() => {});
+    }
+  }, []);
 
   const submitHandler = async (e) => {
     try {
@@ -57,8 +88,8 @@ const Profile = () => {
   };
 
   const cancelHandler = () => {
-    history.replace('/home');
-  }
+    history.replace("/home");
+  };
   return (
     <Container
       className=" mx-auto"
@@ -89,7 +120,13 @@ const Profile = () => {
             <Button variant="info" type="submit">
               Update
             </Button>
-            <Button variant="outline-info" className="mx-2" onClick={cancelHandler}>Cancel</Button>
+            <Button
+              variant="outline-info"
+              className="mx-2"
+              onClick={cancelHandler}
+            >
+              Cancel
+            </Button>
           </div>
         </Form>
       </Card>

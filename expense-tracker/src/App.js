@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Route, Switch, Redirect } from "react-router-dom";
 
@@ -11,6 +11,14 @@ import Profile from "./Components/Layout/Input/Profile";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    const token = localStorage.getItem("key");
+    if (token) {
+      authCtx.login(token);
+    }
+  }, []);
+  
   return (
     <React.Fragment>
       <Header />
@@ -27,9 +35,11 @@ const App = () => {
             {authCtx.isLoggedIn && <Home />}
             {!authCtx.isLoggedIn && <Redirect to="/" />}
           </Route>
-          {authCtx.isLoggedIn && <Route path='/profile'>
-            <Profile />
-          </Route>}
+          {authCtx.isLoggedIn && (
+            <Route path="/profile">
+              <Profile />
+            </Route>
+          )}
         </Switch>
       </main>
     </React.Fragment>
