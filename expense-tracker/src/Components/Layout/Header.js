@@ -15,12 +15,11 @@ const Header = () => {
   //   })
   // }, []);
 
-  
   const verifyUserHandler = async () => {
     try {
       const payload = {
         requestType: "VERIFY_EMAIL",
-        idToken: authCtx.token
+        idToken: authCtx.token,
       };
       const res = await fetch(
         `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${key}`,
@@ -32,7 +31,7 @@ const Header = () => {
           },
         }
       );
-      if(!res.ok){
+      if (!res.ok) {
         const data = await res.json();
         console.log(data.error.message);
         throw new Error();
@@ -43,13 +42,20 @@ const Header = () => {
   return (
     <header>
       <Navbar bg="black" variant="dark" expand="sm" className="mb-3">
-        <Container>
+        <Container className="d-flex justify-content-between">
           <Navbar.Brand>Expense Tracker</Navbar.Brand>
-          {authCtx.isLoggedIn && !isVerified && (
-            <Button variant="outline-secondary" onClick={verifyUserHandler}>
-              Verify User
-            </Button>
-          )}
+          <div className="d-flex gap-1">
+            {authCtx.isLoggedIn && !isVerified && (
+              <Button variant="outline-secondary" onClick={verifyUserHandler}>
+                Verify User
+              </Button>
+            )}
+            {authCtx.isLoggedIn && (
+              <Button variant="outline-info" onClick={authCtx.logout}>
+                Logout
+              </Button>
+            )}
+          </div>
         </Container>
       </Navbar>
     </header>

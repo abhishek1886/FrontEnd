@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 
 const AuthContext = React.createContext({
   token: null,
@@ -9,6 +10,7 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = (props) => {
   const [data, setData] = useState(null);
+  const history = useHistory();
 
   const userLoggedIn = !!data;
 
@@ -25,6 +27,7 @@ export const AuthContextProvider = (props) => {
     setData(null);
     localStorage.removeItem('token');
     localStorage.removeItem('email');
+    history.push('/login');
   }
 
   const contextValue = {
