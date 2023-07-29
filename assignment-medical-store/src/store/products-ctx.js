@@ -10,19 +10,47 @@ export const ProductContextProvider = (props) => {
   const [isDataFetched, setIsDataFetched] = useState(false);
 
   const addProductHandler = (product) => {
-    setProdctData((prevData) => [...prevData, product]);
+    console.log(product);
+    setProdctData((prevData) => {
+      const updatedData = [...prevData, product];
+      console.log(updatedData);
+      return updatedData;
+    });
+    
   };
 
-  console.log(productData);
   const setIsDataFetchedHandler = () => {
     setIsDataFetched(true);
   }
 
-  const removeItemHandler = (quantity) => {
-    const quantity = Number(quantity);
-    // setProdctData(prevData = {
-    //   current
-    // })
+  const removeItemHandler = (id, enteredQuantity) => {
+    setProdctData( (prevData) => {
+      const index = prevData.findIndex(i => i._id === id);
+      const item = prevData[index];
+      console.log(id);
+      console.log(enteredQuantity);
+      console.log(index);
+      console.log(item);
+      const updatedItem = {
+        ...item,
+        quantity: item.quantity - enteredQuantity
+      }
+
+      let updatedData = [...prevData];
+      updatedData[index] = updatedItem;
+
+      // fetch(`https://crudcrud.com/api/17d9e77c10934becb72636a6422d4b11/product/${id}`, {
+      //   method: "PATCH",
+      //   body: JSON.stringify({
+      //     quantity: item.quantity-enteredQuantity
+      //   }),
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   }
+      // });
+      
+      return updatedData;
+    })
   }
 
   return (
@@ -30,7 +58,7 @@ export const ProductContextProvider = (props) => {
       value={{
         products: productData,
         addProduct: addProductHandler,
-        removeItems: removeItemHandler,
+        removeItem: removeItemHandler,
         isDataFetched: isDataFetched,
         setIsDataFetched: setIsDataFetchedHandler
       }}

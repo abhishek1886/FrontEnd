@@ -16,8 +16,8 @@ const AvailableProducts = () => {
           name={product.name}
           description={product.description}
           quantity={product.quantity}
-          key={product.id}
-          id={product.id}
+          key={product._id}
+          id={product._id}
           price={product.price}
         />
       );
@@ -26,9 +26,9 @@ const AvailableProducts = () => {
 
   useEffect(() => {
     if (productCtx.products.length === 0 && !productCtx.isDataFetched ) {
-      productCtx.setIsDataFetched();
+      
       fetch(
-        "https://crudcrud.com/api/a4194fccc2854f2e94f1060324a5ab35/products"
+        "https://crudcrud.com/api/17d9e77c10934becb72636a6422d4b11/products"
       )
         .then((res) => {
           if (res.ok) {
@@ -41,6 +41,8 @@ const AvailableProducts = () => {
         })
         .then((data) => {
           data.forEach((element) => {
+            console.log(element);
+            productCtx.setIsDataFetched();
             productCtx.addProduct(element);
           });
         })
@@ -48,10 +50,26 @@ const AvailableProducts = () => {
           alert(err.message);
         });
       //cartCtx.addItems
+      // (async () => {
+      //   try {
+      //     const response = await fetch(
+      //       "https://crudcrud.com/api/17d9e77c10934becb72636a6422d4b11/products"
+      //     );
+      //     if (!response.ok) {
+      //       throw new Error("Something went wrong");
+      //     }
+      //     const data = await response.json();
+      //     data.forEach((element) => {
+      //       console.log(element);
+      //       productCtx.addProduct(element);
+      //     });
+      //     productCtx.setIsDataFetched(); // Move this line inside the try block
+      //   } catch (err) {
+      //     alert(err.message);
+      //   }
+      // });
     }
   }, [])
-
-  console.log(products);
 
   return (
     <Container className="text-center">

@@ -14,17 +14,15 @@ const Product = (props) => {
       e.preventDefault();
 
       const quantity = inputRef.current.value;
-      console.log(quantity);
       const product = {
         ...props,
         quantity: Number(quantity),
       };
-      console.log(product);
       cartCtx.addItems(product);
-      productCtx.removeItem(quantity);
+      productCtx.removeItem(props.id, quantity);
 
       await fetch(
-        "https://crudcrud.com/api/a4194fccc2854f2e94f1060324a5ab35/cart",
+        "https://crudcrud.com/api/17d9e77c10934becb72636a6422d4b11/cart",
         {
           method: "POST",
           body: JSON.stringify(product),
@@ -40,10 +38,11 @@ const Product = (props) => {
 
   return (
     <>
-      <tr className="mb-2" key={props.id}>
+      <tr className="mb-2" key={props._id}>
         <td>{props.name}</td>
         <td>{props.description}</td>
         <td>₹{props.price}</td>
+        <td>{props.quantity}</td>
         <td>
           <Form.Control
             type="number"

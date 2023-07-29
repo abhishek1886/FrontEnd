@@ -30,10 +30,8 @@ const ProductInput = () => {
         quantity: Number(formData.quantity),
       };
 
-      console.log(productData);
-      productCtx.addProduct(productData);
-      await fetch(
-        "https://crudcrud.com/api/a4194fccc2854f2e94f1060324a5ab35/products",
+      const res = await fetch(
+        "https://crudcrud.com/api/17d9e77c10934becb72636a6422d4b11/products",
         {
           method: "POST",
           body: JSON.stringify(productData),
@@ -42,6 +40,8 @@ const ProductInput = () => {
           },
         }
       );
+      const data = await res.json();
+      productCtx.addProduct(data);
     } catch (err) {
       alert(err);
     }

@@ -21,7 +21,7 @@ const Cart = (props) => {
     if (cartCtx.items.length === 0 && !cartCtx.isDataFetched ) {
       cartCtx.setIsDataFetched();
       fetch(
-        "https://crudcrud.com/api/a4194fccc2854f2e94f1060324a5ab35/cart"
+        "https://crudcrud.com/api/17d9e77c10934becb72636a6422d4b11/cart"
       )
         .then((res) => {
           if (res.ok) {
