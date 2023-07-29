@@ -13,12 +13,14 @@ const App = () => {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    const token = localStorage.getItem("key");
-    if (token) {
-      authCtx.login(token);
+    const key = localStorage.getItem("token");
+    const email = localStorage.getItem("email");
+    if (key && email) {
+      authCtx.login({token: key, email: email});
     }
   }, []);
-  
+
+  console.log(authCtx.isLoggedIn);
   return (
     <React.Fragment>
       <Header />
@@ -26,10 +28,11 @@ const App = () => {
       <main>
         <Switch>
           <Route path="/" exact>
-            <SignUp />
+            {!authCtx.isLoggedIn && <SignUp />}
+            {authCtx.isLoggedIn && <Redirect to='/home' />}
           </Route>
           <Route path="/login">
-            <Login />
+            {!authCtx.isLoggedIn && <Login />}
           </Route>
           <Route path="/home">
             {authCtx.isLoggedIn && <Home />}
@@ -42,6 +45,7 @@ const App = () => {
           )}
         </Switch>
       </main>
+
     </React.Fragment>
   );
 };

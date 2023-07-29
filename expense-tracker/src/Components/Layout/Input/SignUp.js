@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Card, Form, Container, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
 
@@ -11,6 +11,7 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
   });
+  const history = useHistory();
 
   const formInputHandler = (e) => {
     const { name, value } = e.target;
@@ -42,13 +43,19 @@ const SignUp = () => {
 
         if (res.ok) {
           const data = await res.json();
+          history.replace('/login');
           setFormData({
             email: "",
             password: "",
             confirmPassword: "",
           });
         } else {
-          throw new Error("Something went wrong! Try again.");
+          const data = res.json();
+          let errorMessage = "Something went wrong! Try again."
+          if(data && data.error && data.error.message){
+            errorMessage = data.error.message;
+          }
+          throw new Error(errorMessage);
         }
       }
     } catch (err) {

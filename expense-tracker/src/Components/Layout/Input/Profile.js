@@ -43,7 +43,6 @@ const Profile = () => {
           }
         })
         .then((data) => {
-          console.log(data.users[0].displayName);
           setFormData({
             name: data.users[0].displayName,
             url: data.users[0].photoUrl

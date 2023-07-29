@@ -43,8 +43,7 @@ const Login = () => {
 
       if (res.ok) {
         const data = await res.json();
-        localStorage.setItem("key", data.idToken);
-        authCtx.login(data.idToken);
+        authCtx.login({ token: data.idToken, email: data.email});
         history.push('/home');
         setFormData({
           email: "",
@@ -52,7 +51,13 @@ const Login = () => {
           confirmPassword: "",
         });
       } else {
-        throw new Error("Something went wrong! Try again.");
+        const data = await res.json();
+        console.log(data);
+        let errorMessage = "Something went wrong! Try again.";
+        if(data && data.error && data.error.message){
+          errorMessage = data.error.message;
+        }
+        throw new Error(errorMessage);
       }
     } catch (err) {
       alert(err.message);
