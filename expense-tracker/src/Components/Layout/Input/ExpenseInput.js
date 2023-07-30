@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Form, Col, Row, Button } from "react-bootstrap";
 
@@ -7,8 +7,22 @@ const ExpenseInput = (props) => {
     amount: "",
     description: "",
     category: "",
-    date: ''
+    date: "",
   });
+
+  const { value } = props;
+
+  useEffect(() => {
+    console.log(props.isEdit);
+  if (value) {
+    setFormData({
+      amount: value.amount,
+      description: value.description,
+      category: value.category,
+      date: value.date,
+    });
+  }
+  }, [value])
 
   const formInputHandler = (e) => {
     const { name, value } = e.target;
@@ -21,8 +35,14 @@ const ExpenseInput = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const inputData = { ...formData, id: Math.random().toString()};
-    props.onSubmit(inputData);
+    if (!props.isEdit) {
+      const inputData = { ...formData, id: Math.random().toString() };
+      props.onSubmit(inputData, 'add');
+    } else {
+      const inputData = { ...formData, id: props.value.id, _id: props.value._id}
+      props.onSubmit(inputData)
+      console.log(inputData, 'edit');
+    }
   };
   return (
     <Form onSubmit={submitHandler}>
@@ -111,7 +131,15 @@ const ExpenseInput = (props) => {
 
       <div className="text-center pt-3 mt-2">
         <Button variant="info" type="submit" className="fw-bold px-4 rounded-4">
-          Add Expense
+          {!props.isEdit ? "Add expense" : "Edit"}
+        </Button>
+        <Button
+          variant="outline-info"
+          type="submit"
+          className="fw-bold px-4 ms-2 rounded-4"
+          onClick={props.onClose}
+        >
+          Cancel
         </Button>
       </div>
     </Form>

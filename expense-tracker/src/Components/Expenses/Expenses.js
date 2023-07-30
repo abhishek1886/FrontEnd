@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
-import { Container, Card, ListGroup, Form } from "react-bootstrap";
+import { Container, Card, ListGroup, Form, Button } from "react-bootstrap";
 import ExpenseInput from "../Layout/Input/ExpenseInput";
 import ExpenseItem from "./ExpenseItem";
 
@@ -15,21 +15,59 @@ const Expenses = () => {
   const [expenseData, setExpenseData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [inputOpen, setInputOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [values, setValues] = useState(null);
 
   const formInputData = async (inputData) => {
     try {
-      console.log(inputData);
+      if (!isEdit) {
+        const response = await expense.post(`/${email}.json`, {
+          ...inputData,
+        });
+        console.log('add');
 
-      const response = await expense.post(`/${email}.json`, {
-        ...inputData,
-      });
+        const itemId = response.data.name;
+        const updatedData = { ...inputData, _id: itemId };
+        setExpenseData((prevData) => [updatedData, ...prevData]);
+        setOriginalData((prevData) => [updatedData, ...prevData]);
+      } else {
+        const { _id, ...payload} = inputData;
+        const response = await expense.put(`/${email}/${inputData._id}.json`, { ...payload });
+        console.log(response);
+        console.log('edit');
 
-      const updatedData = { ...inputData, _id: response.data.name };
-      setExpenseData((prevData) => [updatedData, ...prevData]);
-      setOriginalData((prevData) => [updatedData, ...prevData]);
+        const updatedData = originalData.map((item) => (item._id === _id ? inputData : item))
+        setExpenseData(updatedData);
+        setOriginalData(updatedData);
+
+        setValues(null);
+        setIsEdit(false);
+        setInputOpen(false);
+      }
     } catch (err) {
       alert(err.message);
     }
+  };
+
+  const deleteButtonHandler = async (id, _id) => {
+    const updatedData = originalData.filter((data) => data.id !== id);
+    setOriginalData(updatedData);
+    setExpenseData(updatedData);
+
+    console.log(`/${email}/${_id}.json`);
+
+    await expense.delete(`/${email}/${_id}.json`).catch((err) => {
+      alert(err.message);
+    });
+
+    console.log(id);
+  };
+
+  const editButtonHandler = (data) => {
+    setInputOpen(true);
+    setValues(data);
+    setIsEdit(true);
   };
 
   let listItems;
@@ -43,6 +81,9 @@ const Expenses = () => {
         category={item.category}
         key={item.id}
         id={item.id}
+        _id={item._id}
+        onDelete={deleteButtonHandler}
+        onEdit={editButtonHandler}
       />
     ));
   }
@@ -55,7 +96,12 @@ const Expenses = () => {
 
       let storedData = [];
       if (response.data) {
-        storedData = Object.values(response.data).reverse();
+        storedData = Object.entries(response.data)
+          .map(([key, value]) => ({
+            ...value,
+            _id: key,
+          }))
+          .reverse();
       }
 
       setExpenseData(storedData);
@@ -63,6 +109,11 @@ const Expenses = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    setExpenseData(expenseData);
+    setOriginalData(originalData);
+  }, [originalData, expenseData])
 
   const selectFilterHandler = (e) => {
     console.log(e.target.value);
@@ -72,23 +123,49 @@ const Expenses = () => {
       setFilter(selectedFilter);
     } else {
       setFilter(selectedFilter);
-      const filtereditems = originalData.filter(item => item.category === selectedFilter);
+      const filtereditems = originalData.filter(
+        (item) => item.category === selectedFilter
+      );
       setExpenseData(filtereditems);
     }
+  };
+
+  const openInputHandler = () => {
+    setInputOpen((prevState) => !prevState);
+    setValues(null);
+    setIsEdit(false);
   };
 
   return (
     <React.Fragment>
       <Container
         className="mt-5 mb-2 mr-auto ml-auto"
-        style={{ maxWidth: "500px", marginTop: "50px" }}
+        style={{ maxWidth: "650px", marginTop: "50px" }}
       >
         <Card className="shadow p-3 bg-secondary bg-gradient">
-          <ExpenseInput onSubmit={formInputData} />
+          {inputOpen && (
+            <ExpenseInput
+              onSubmit={formInputData}
+              onClose={openInputHandler}
+              isEdit={isEdit}
+              value={values}
+            />
+          )}
+          {!inputOpen && (
+            <div className="text-center">
+              <Button
+                variant="info"
+                className="fw-bold px-4 rounded-4"
+                onClick={openInputHandler}
+              >
+                Add Expense
+              </Button>
+            </div>
+          )}
         </Card>
       </Container>
 
-      <Container className="mt-4 mb-5" style={{ maxWidth: "500px" }}>
+      <Container className="mt-4 mb-5" style={{ maxWidth: "650px" }}>
         <Card className="shadow p-3 bg-secondary bg-gradient">
           <div className="d-flex justify-content-between">
             <p>Filter</p>
