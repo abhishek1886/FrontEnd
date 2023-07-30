@@ -64,7 +64,7 @@ const SignUp = () => {
   };
   return (
     <Container className="mx-5 mx-auto" style={{ maxWidth: "450px", marginTop: "150px" }}>
-      <Card className="p-3 px-4">
+      <Card className="shadow p-3 px-4">
         <h2 className="py-3 text-center">Sign Up</h2>
         <Form onSubmit={submitHandler}>
           <Form.Floating className="mb-2">
@@ -104,7 +104,7 @@ const SignUp = () => {
             <label htmlFor="confirmPassword">Confirm Password</label>
           </Form.Floating>
           <div className="d-flex flex-column align-items-center justify-content-center gap-2  mt-2">
-            <Button type="submit">Sign Up</Button>
+            <Button type="submit" variant="info">Sign Up</Button>
             <Link to='/login' >
               <Button variant="boder-info">
                 Already have an account? Login

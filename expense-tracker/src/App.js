@@ -8,6 +8,7 @@ import Header from "./Components/Layout/Header";
 import Home from "./Components/Layout/Home";
 import AuthContext from "./Components/auth/auth-context";
 import Profile from "./Components/Layout/Input/Profile";
+import Expenses from "./Components/Expenses/Expenses";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
@@ -20,7 +21,6 @@ const App = () => {
     }
   }, []);
 
-  console.log(authCtx.isLoggedIn);
   return (
     <React.Fragment>
       <Header />
@@ -43,6 +43,9 @@ const App = () => {
               <Profile />
             </Route>
           )}
+          {authCtx.isLoggedIn && <Route path='/expenses'>
+            <Expenses />
+          </Route>}
         </Switch>
       </main>
 

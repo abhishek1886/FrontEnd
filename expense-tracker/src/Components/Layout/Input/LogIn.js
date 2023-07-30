@@ -3,10 +3,12 @@ import React, { useState, useContext } from "react";
 import { Card, Form, Container, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../../auth/auth-context";
+import ForgotPassword from "./ForgotPassword";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
 
 const Login = () => {
+  const [isLoginPage, setIsLoginPage] = useState(true);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -43,8 +45,8 @@ const Login = () => {
 
       if (res.ok) {
         const data = await res.json();
-        authCtx.login({ token: data.idToken, email: data.email});
-        history.push('/home');
+        authCtx.login({ token: data.idToken, email: data.email });
+        history.push("/home");
         setFormData({
           email: "",
           password: "",
@@ -54,7 +56,7 @@ const Login = () => {
         const data = await res.json();
         console.log(data);
         let errorMessage = "Something went wrong! Try again.";
-        if(data && data.error && data.error.message){
+        if (data && data.error && data.error.message) {
           errorMessage = data.error.message;
         }
         throw new Error(errorMessage);
@@ -63,46 +65,57 @@ const Login = () => {
       alert(err.message);
     }
   };
+
+  const forgotPasswordHandler = () => {setIsLoginPage(prevState => !prevState)};
   return (
-    <Container className="mx-5 mx-auto" style={{ maxWidth: "450px", marginTop: "150px"}}>
-      <Card className="p-3 px-4">
-        <h2 className="py-3 text-center">Login</h2>
-        <Form onSubmit={submitHandler}>
-          <Form.Floating className="mb-2">
-            <Form.Control
-              id="email"
-              type="email"
-              placeholder="email"
-              name="email"
-              onChange={formInputHandler}
-              value={formData.email}
-              required
-            />
-            <label htmlFor="email">Email</label>
-          </Form.Floating>
-          <Form.Floating className="mb-2">
-            <Form.Control
-              id="password"
-              type="password"
-              placeholder="password"
-              name="password"
-              onChange={formInputHandler}
-              value={formData.password}
-              required
-            />
-            <label htmlFor="password">Password</label>
-          </Form.Floating>
-          <div className="d-flex flex-column align-items-center justify-content-center gap-2  mt-2">
-            <Button type="submit">Login</Button>
-            <Link to='/'>
-              <Button variant="boder-info">
-                Don't have an account? Signup
-              </Button>
-            </Link>
-          </div>
-        </Form>
-      </Card>
-    </Container>
+    <React.Fragment>
+      {isLoginPage &&
+        <Container
+          className="mx-5 mx-auto"
+          style={{ maxWidth: "450px", marginTop: "150px" }}
+        >
+          <Card className="shadow p-3 px-4">
+            <h2 className="py-3 text-center">Login</h2>
+            <Form onSubmit={submitHandler}>
+              <Form.Floating className="mb-2">
+                <Form.Control
+                  id="email"
+                  type="email"
+                  placeholder="email"
+                  name="email"
+                  onChange={formInputHandler}
+                  value={formData.email}
+                  required
+                />
+                <label htmlFor="email">Email</label>
+              </Form.Floating>
+              <Form.Floating className="mb-2">
+                <Form.Control
+                  id="password"
+                  type="password"
+                  placeholder="password"
+                  name="password"
+                  onChange={formInputHandler}
+                  value={formData.password}
+                  required
+                />
+                <label htmlFor="password">Password</label>
+              </Form.Floating>
+              <div className="d-flex flex-column align-items-center justify-content-center gap-2  mt-2">
+                <Button type="submit">Login</Button>
+                <Button variant="border-info" onClick={forgotPasswordHandler}>Forgot Password?</Button>
+                <Link to="/">
+                  <Button variant="boder-info">
+                    Don't have an account? Signup
+                  </Button>
+                </Link>
+              </div>
+            </Form>
+          </Card>
+        </Container>
+      }
+      {!isLoginPage && <ForgotPassword onClick={forgotPasswordHandler} />}
+    </React.Fragment>
   );
 };
 
