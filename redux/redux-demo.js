@@ -23,12 +23,12 @@ store.subscribe(counterSubscriber);
 //counterSubscriber();
 
 store.dispatch({ type: 'increment'});
-store.dispatch({ type: 'increment'});
-store.dispatch({ type: 'increment'});
-store.dispatch({ type: 'increment'});
-store.dispatch({ type: 'increment'});
+// store.dispatch({ type: 'increment'});
+// store.dispatch({ type: 'increment'});
+// store.dispatch({ type: 'increment'});
+// store.dispatch({ type: 'increment'});
 
-store.dispatch({ type: 'decrement'});
+// store.dispatch({ type: 'decrement'});
 
 
 
