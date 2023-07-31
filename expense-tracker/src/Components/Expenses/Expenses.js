@@ -1,46 +1,56 @@
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
-
+import { useSelector, useDispatch } from "react-redux";
 import { Container, Card, ListGroup, Form, Button } from "react-bootstrap";
 import ExpenseInput from "../Layout/Input/ExpenseInput";
 import ExpenseItem from "./ExpenseItem";
+import { expenseActions } from "../../store/expenses";
 
 const expense = axios.create({
   baseURL: "https://expense-tracker-d9bd4-default-rtdb.firebaseio.com/expenses",
 });
 
-
 const Expenses = () => {
   const [expenseData, setExpenseData] = useState([]);
-  const [originalData, setOriginalData] = useState([]);
-  const [filter, setFilter] = useState("all");
   const [inputOpen, setInputOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [values, setValues] = useState(null);
-  
+
+  const reduxData = useSelector((state) => state.expenses.expenses);
+  const dispatch = useDispatch();
+
   const email = localStorage.getItem("email").replace(/[@.]/g, "");
+
   const formInputData = async (inputData) => {
     try {
       if (!isEdit) {
         const response = await expense.post(`/${email}.json`, {
           ...inputData,
         });
-        console.log('add');
 
         const itemId = response.data.name;
-        const updatedData = { ...inputData, _id: itemId };
+        let isPremium = false;
+        if(Number(inputData.amount) > 10000) {
+          isPremium = true;
+        }
+        const updatedData = { ...inputData, _id: itemId, isPremium: isPremium};
         setExpenseData((prevData) => [updatedData, ...prevData]);
-        setOriginalData((prevData) => [updatedData, ...prevData]);
+        dispatch(expenseActions.addExpense(updatedData));
       } else {
-        const { _id, ...payload} = inputData;
-        const response = await expense.put(`/${email}/${inputData._id}.json`, { ...payload });
+        console.log(inputData);
+        const { _id, ...payload } = inputData;
+        const response = await expense.put(`/${email}/${inputData._id}.json`, {
+          ...payload,
+        });
         console.log(response);
-        console.log('edit');
+        console.log("edit");
 
-        const updatedData = originalData.map((item) => (item._id === _id ? inputData : item))
+        const updatedData = reduxData.map((item) =>
+          item._id === _id ? inputData : item
+        );
         setExpenseData(updatedData);
-        setOriginalData(updatedData);
+        dispatch(expenseActions.addEditedExpense(updatedData));
 
         setValues(null);
         setIsEdit(false);
@@ -49,20 +59,6 @@ const Expenses = () => {
     } catch (err) {
       alert(err.message);
     }
-  };
-
-  const deleteButtonHandler = async (id, _id) => {
-    const updatedData = originalData.filter((data) => data.id !== id);
-    setOriginalData(updatedData);
-    setExpenseData(updatedData);
-
-    console.log(`/${email}/${_id}.json`);
-
-    await expense.delete(`/${email}/${_id}.json`).catch((err) => {
-      alert(err.message);
-    });
-
-    console.log(id);
   };
 
   const editButtonHandler = (data) => {
@@ -83,7 +79,7 @@ const Expenses = () => {
         key={item.id}
         id={item.id}
         _id={item._id}
-        onDelete={deleteButtonHandler}
+        isPremium={item.isPremium}
         onEdit={editButtonHandler}
       />
     ));
@@ -91,11 +87,9 @@ const Expenses = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(email);
       const response = await expense.get(`/${email}.json`).catch((err) => {
         alert(err.message);
       });
-      console.log(response);
       let storedData = [];
       if (response.data) {
         storedData = Object.entries(response.data)
@@ -107,25 +101,23 @@ const Expenses = () => {
       }
 
       setExpenseData(storedData);
-      setOriginalData(storedData);
+      storedData.reverse().forEach(data => {
+        dispatch(expenseActions.addExpense(data));
+      })
     };
     fetchData();
   }, []);
 
   useEffect(() => {
-    setExpenseData(expenseData);
-    setOriginalData(originalData);
-  }, [originalData, expenseData])
+    setExpenseData(reduxData);
+  }, [reduxData]);
 
   const selectFilterHandler = (e) => {
-    console.log(e.target.value);
     const selectedFilter = e.target.value;
     if (selectedFilter === "all") {
-      setExpenseData(originalData);
-      setFilter(selectedFilter);
+      setExpenseData(reduxData);
     } else {
-      setFilter(selectedFilter);
-      const filtereditems = originalData.filter(
+      const filtereditems = reduxData.filter(
         (item) => item.category === selectedFilter
       );
       setExpenseData(filtereditems);
@@ -176,7 +168,6 @@ const Expenses = () => {
               className="bg-black fw-bold text-white border-info rounded-4"
               style={{ width: "5rem", fontSize: "10px", height: "25px" }}
               onChange={selectFilterHandler}
-              value={filter}
             >
               <option value="all">All</option>
               <option value="Food">Food</option>

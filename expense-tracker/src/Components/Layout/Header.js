@@ -1,13 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
 
+import { useDispatch, useSelector } from "react-redux";
 import { Navbar, Container, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import AuthContext from "../auth/auth-context";
+import { authActions } from "../../store/auth";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
 const Header = () => {
-  const authCtx = useContext(AuthContext);
   const [isVerified, setIsVerified] = useState(false);
+  const {isLoggedIn, token } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   // const [isVerified, setIsVerified] = useState(false);
 
   // useEffect(() => {
@@ -20,7 +22,7 @@ const Header = () => {
     try {
       const payload = {
         requestType: "VERIFY_EMAIL",
-        idToken: authCtx.token,
+        idToken: token,
       };
       const res = await fetch(
         `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${key}`,
@@ -40,19 +42,23 @@ const Header = () => {
       setIsVerified(true);
     } catch (err) {}
   };
+
+  const logoutHandler = () => {
+    dispatch(authActions.logout())
+  }
   return (
     <header>
       <Navbar bg="black" variant="dark" expand="sm" className="mb-3">
         <Container className="d-flex justify-content-between">
           <Navbar.Brand as={Link} to="/home">Expense Tracker</Navbar.Brand>
           <div className="d-flex gap-1">
-            {authCtx.isLoggedIn && !isVerified && (
+            {isLoggedIn && !isVerified && (
               <Button variant="outline-secondary" onClick={verifyUserHandler}>
                 Verify User
               </Button>
             )}
-            {authCtx.isLoggedIn && (
-              <Button variant="outline-info" onClick={authCtx.logout}>
+            {isLoggedIn && (
+              <Button variant="outline-info" onClick={logoutHandler}>
                 Logout
               </Button>
             )}

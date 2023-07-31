@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from "react";
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal";
 import CartItems from "./CartItems";
-import CartContext from "../store/cart-context";
+import CartContext from "../../store/cart-context";
 
 const Cart = (props) => {
   const [cartIsempty, setCartIsEmpty] = useState(true);

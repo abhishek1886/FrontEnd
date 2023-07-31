@@ -24,6 +24,10 @@
   width: 15rem;
 }
 
+.price label {
+  padding-right: 3rem;
+}
+
 .quantity label {
   width: 10rem;
   margin-right: 10px;

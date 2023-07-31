@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 
+import { useSelector, useDispatch } from "react-redux";
 import { Card, Form, Container, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import AuthContext from "../../auth/auth-context";
 import ForgotPassword from "./ForgotPassword";
+import { authActions } from "../../../store/auth";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
 
@@ -14,7 +15,8 @@ const Login = () => {
     password: "",
   });
 
-  const authCtx = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const { isAuthenticated, token, email } = useSelector(state => state.auth);
   const history = useHistory();
 
   const formInputHandler = (e) => {
@@ -45,7 +47,7 @@ const Login = () => {
 
       if (res.ok) {
         const data = await res.json();
-        authCtx.login({ token: data.idToken, email: data.email });
+        dispatch(authActions.login({ token: data.idToken, email: data.email }));
         history.push("/home");
         setFormData({
           email: "",
@@ -54,7 +56,6 @@ const Login = () => {
         });
       } else {
         const data = await res.json();
-        console.log(data);
         let errorMessage = "Something went wrong! Try again.";
         if (data && data.error && data.error.message) {
           errorMessage = data.error.message;

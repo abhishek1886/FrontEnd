@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 
 import classes from "./Tshirt.module.css";
-import CartContext from "../store/cart-context";
-import AvailableTshirtsContext from "../store/availableTshirt-context";
+import CartContext from "../../store/cart-context";
+import AvailableTshirtsContext from "../../store/availableTshirt-context";
 
 const Tshirts = (props) => {
   const availableTshirtCtx = useContext(AvailableTshirtsContext);

@@ -1,11 +1,10 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-
 import authReducer from "./auth";
-import counterReducer from "./counter";
+import expensesReducer from "./expenses";
 
 const rootReducer = combineReducers({
-  counter: counterReducer,
   auth: authReducer,
+  expenses: expensesReducer,
 });
 
 const store = configureStore({

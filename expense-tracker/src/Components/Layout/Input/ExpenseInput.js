@@ -36,8 +36,12 @@ const ExpenseInput = (props) => {
     e.preventDefault();
 
     if (!props.isEdit) {
-      const inputData = { ...formData, id: Math.random().toString() };
-      props.onSubmit(inputData, "add");
+      const inputData = {
+        ...formData,
+        id: Math.random().toString(),
+        isPremium: Number(formData.amount) > 10000 ? true : false,
+      };
+      props.onSubmit(inputData);
     } else {
       const inputData = {
         ...formData,

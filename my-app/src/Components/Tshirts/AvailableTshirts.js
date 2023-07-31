@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 
 import classes from "./AvailableTshirts.module.css";
-import AvailableTshirtsContext from "../store/availableTshirt-context";
+import AvailableTshirtsContext from "../../store/availableTshirt-context";
 import Tshirts from "./Tshirts";
 
 const AvailableTshirts = (props) => {

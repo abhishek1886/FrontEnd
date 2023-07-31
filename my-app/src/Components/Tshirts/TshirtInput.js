@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 
 import classes from "./TshirtInput.module.css";
-import AvailableTshirtsContext from "../store/availableTshirt-context";
+import AvailableTshirtsContext from "../../store/availableTshirt-context";
 
 const TshirtInput = (props) => {
   const [nameInput, setNameInput] = useState("");

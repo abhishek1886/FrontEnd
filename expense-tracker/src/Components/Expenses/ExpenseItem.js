@@ -1,7 +1,8 @@
 import React from "react";
 
-import axios from "axios";
 import { ListGroup, Badge, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { expenseActions } from "../../store/expenses";
 
 const monthNames = [
   "Jan",
@@ -18,15 +19,17 @@ const monthNames = [
   "Dec",
 ];
 
-const expense = axios.create({
-  baseURL: "https://expense-tracker-d9bd4-default-rtdb.firebaseio.com/expenses",
-});
-
 const ExpenseItem = (props) => {
+  const dispatch = useDispatch();
   const date = new Date(props.date);
 
   const deleteButtonHandler = (e) => {
-    props.onDelete(props.id, props._id);
+    const payload = {
+      id: props.id,
+      _id: props._id,
+      email: localStorage.getItem("email").replace(/[@.]/g, ""),
+    };
+    dispatch(expenseActions.deleteExpense(payload));
   };
 
   const editButtonHandler = () => {
@@ -66,7 +69,7 @@ const ExpenseItem = (props) => {
             <Badge>{`${date.getDate()} - ${
               monthNames[date.getMonth()]
             } - ${date.getFullYear()}`}</Badge>
-            <p >{props.description}</p>
+            <p>{props.description}</p>
           </div>
 
           <div className="d-flex flex-column pt-3 text-center">
@@ -96,6 +99,16 @@ const ExpenseItem = (props) => {
           >
             Edit
           </Button>
+          {props.isPremium && (
+            <Button
+              variant="info"
+              className="p-0 fw-bold"
+              style={{ width: "3rem", fontSize: "10px", height: "20px" }}
+              onClick={editButtonHandler}
+            >
+              Premium
+            </Button>
+          )}
         </div>
       </div>
     </ListGroup.Item>
