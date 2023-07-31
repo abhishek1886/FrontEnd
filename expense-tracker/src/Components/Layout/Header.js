@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 
 import { Navbar, Container, Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import AuthContext from "../auth/auth-context";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
@@ -43,7 +44,7 @@ const Header = () => {
     <header>
       <Navbar bg="black" variant="dark" expand="sm" className="mb-3">
         <Container className="d-flex justify-content-between">
-          <Navbar.Brand>Expense Tracker</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/home">Expense Tracker</Navbar.Brand>
           <div className="d-flex gap-1">
             {authCtx.isLoggedIn && !isVerified && (
               <Button variant="outline-secondary" onClick={verifyUserHandler}>

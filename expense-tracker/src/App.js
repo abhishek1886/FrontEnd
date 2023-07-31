@@ -17,7 +17,7 @@ const App = () => {
     const key = localStorage.getItem("token");
     const email = localStorage.getItem("email");
     if (key && email) {
-      authCtx.login({token: key, email: email});
+      authCtx.login({ token: key, email: email });
     }
   }, []);
 
@@ -29,11 +29,9 @@ const App = () => {
         <Switch>
           <Route path="/" exact>
             {!authCtx.isLoggedIn && <SignUp />}
-            {authCtx.isLoggedIn && <Redirect to='/home' />}
+            {authCtx.isLoggedIn && <Redirect to="/home" />}
           </Route>
-          <Route path="/login">
-            {!authCtx.isLoggedIn && <Login />}
-          </Route>
+          <Route path="/login">{!authCtx.isLoggedIn && <Login />}</Route>
           <Route path="/home">
             {authCtx.isLoggedIn && <Home />}
             {!authCtx.isLoggedIn && <Redirect to="/" />}
@@ -43,12 +41,13 @@ const App = () => {
               <Profile />
             </Route>
           )}
-          {authCtx.isLoggedIn && <Route path='/expenses'>
-            <Expenses />
-          </Route>}
+          {authCtx.isLoggedIn && (
+            <Route path="/expenses">
+              <Expenses />
+            </Route>
+          )}
         </Switch>
       </main>
-
     </React.Fragment>
   );
 };

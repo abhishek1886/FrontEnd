@@ -12,7 +12,7 @@ const Home = () => {
     <Container fluid className='m-5'>
       <h1>Welcome to Expense Tracker</h1>
       <p>Your profile is incomplete. <Link to='/profile'>Complete</Link></p>
-      <Button variant='info' className='rounded-4 fw-bold px-4'onClick={clickHandler}>Start</Button>
+      <Button variant='info' className='rounded-4 fw-bold px-4'onClick={clickHandler}>Let's Start!</Button>
     </Container>
   )
 }

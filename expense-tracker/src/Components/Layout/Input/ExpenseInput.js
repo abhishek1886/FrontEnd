@@ -6,7 +6,7 @@ const ExpenseInput = (props) => {
   const [formData, setFormData] = useState({
     amount: "",
     description: "",
-    category: "",
+    category: "type",
     date: "",
   });
 
@@ -14,15 +14,15 @@ const ExpenseInput = (props) => {
 
   useEffect(() => {
     console.log(props.isEdit);
-  if (value) {
-    setFormData({
-      amount: value.amount,
-      description: value.description,
-      category: value.category,
-      date: value.date,
-    });
-  }
-  }, [value])
+    if (value) {
+      setFormData({
+        amount: value.amount,
+        description: value.description,
+        category: value.category,
+        date: value.date,
+      });
+    }
+  }, [value]);
 
   const formInputHandler = (e) => {
     const { name, value } = e.target;
@@ -37,12 +37,22 @@ const ExpenseInput = (props) => {
 
     if (!props.isEdit) {
       const inputData = { ...formData, id: Math.random().toString() };
-      props.onSubmit(inputData, 'add');
+      props.onSubmit(inputData, "add");
     } else {
-      const inputData = { ...formData, id: props.value.id, _id: props.value._id}
-      props.onSubmit(inputData)
-      console.log(inputData, 'edit');
+      const inputData = {
+        ...formData,
+        id: props.value.id,
+        _id: props.value._id,
+      };
+      props.onSubmit(inputData);
+      console.log(inputData, "edit");
     }
+    setFormData({
+      amount: "",
+      description: "",
+      category: "type",
+      date: "",
+    });
   };
   return (
     <Form onSubmit={submitHandler}>
@@ -105,6 +115,7 @@ const ExpenseInput = (props) => {
             onChange={formInputHandler}
             required
           >
+            <option value="type">Expense Type</option>
             <option value="Food">Food</option>
             <option value="Skincare">Skincare</option>
             <option value="Movies">Movies</option>

@@ -9,7 +9,7 @@ import ExpenseItem from "./ExpenseItem";
 const expense = axios.create({
   baseURL: "https://expense-tracker-d9bd4-default-rtdb.firebaseio.com/expenses",
 });
-const email = localStorage.getItem("email").replace(/[@.]/g, "");
+
 
 const Expenses = () => {
   const [expenseData, setExpenseData] = useState([]);
@@ -18,7 +18,8 @@ const Expenses = () => {
   const [inputOpen, setInputOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [values, setValues] = useState(null);
-
+  
+  const email = localStorage.getItem("email").replace(/[@.]/g, "");
   const formInputData = async (inputData) => {
     try {
       if (!isEdit) {
@@ -90,10 +91,11 @@ const Expenses = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(email);
       const response = await expense.get(`/${email}.json`).catch((err) => {
         alert(err.message);
       });
-
+      console.log(response);
       let storedData = [];
       if (response.data) {
         storedData = Object.entries(response.data)
@@ -140,7 +142,7 @@ const Expenses = () => {
     <React.Fragment>
       <Container
         className="mt-5 mb-2 mr-auto ml-auto"
-        style={{ maxWidth: "650px", marginTop: "50px" }}
+        style={{ maxWidth: "700px", marginTop: "50px" }}
       >
         <Card className="shadow p-3 bg-secondary bg-gradient">
           {inputOpen && (
@@ -165,7 +167,7 @@ const Expenses = () => {
         </Card>
       </Container>
 
-      <Container className="mt-4 mb-5" style={{ maxWidth: "650px" }}>
+      <Container className="mt-4 mb-5" style={{ maxWidth: "700px" }}>
         <Card className="shadow p-3 bg-secondary bg-gradient">
           <div className="d-flex justify-content-between">
             <p>Filter</p>
