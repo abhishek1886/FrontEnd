@@ -18,6 +18,7 @@ const Expenses = () => {
   const [values, setValues] = useState(null);
 
   const reduxData = useSelector((state) => state.expenses.expenses);
+  const isPremium = useSelector((state) => state.expenses.isPremium);
   const dispatch = useDispatch();
 
   const email = localStorage.getItem("email").replace(/[@.]/g, "");
@@ -30,11 +31,7 @@ const Expenses = () => {
         });
 
         const itemId = response.data.name;
-        let isPremium = false;
-        if(Number(inputData.amount) > 10000) {
-          isPremium = true;
-        }
-        const updatedData = { ...inputData, _id: itemId, isPremium: isPremium};
+        const updatedData = { ...inputData, _id: itemId };
         setExpenseData((prevData) => [updatedData, ...prevData]);
         dispatch(expenseActions.addExpense(updatedData));
       } else {
@@ -44,7 +41,6 @@ const Expenses = () => {
           ...payload,
         });
         console.log(response);
-        console.log("edit");
 
         const updatedData = reduxData.map((item) =>
           item._id === _id ? inputData : item
@@ -79,7 +75,6 @@ const Expenses = () => {
         key={item.id}
         id={item.id}
         _id={item._id}
-        isPremium={item.isPremium}
         onEdit={editButtonHandler}
       />
     ));
@@ -101,9 +96,9 @@ const Expenses = () => {
       }
 
       setExpenseData(storedData);
-      storedData.reverse().forEach(data => {
+      storedData.reverse().forEach((data) => {
         dispatch(expenseActions.addExpense(data));
-      })
+      });
     };
     fetchData();
   }, []);
@@ -130,13 +125,33 @@ const Expenses = () => {
     setIsEdit(false);
   };
 
+  const activatePremiumHandler = () => {};
+
+  const downloadhandler = (e) => {
+    //e.preventDefault();
+    
+    const csvLink = document.getElementById("csvLink");
+    function makeCSV(data) {
+      if (data.length === 0) {
+        return "";
+      }
+
+      const keys = ['amount', 'description', 'category', 'date']
+
+      const rows = [keys, ...data.map((item) => keys.map((key) => item[key]))];
+
+      return rows.map((r) => r.join(",")).join("\n");
+    }
+    const blob = new Blob([makeCSV(reduxData)]);
+    csvLink.href = URL.createObjectURL(blob);
+  };
   return (
     <React.Fragment>
       <Container
-        className="mt-5 mb-2 mr-auto ml-auto"
-        style={{ maxWidth: "700px", marginTop: "50px" }}
+        className="pt-5 mb-2 mr-auto ml-auto"
+        style={{ maxWidth: "700px"}}
       >
-        <Card className="shadow p-3 bg-secondary bg-gradient">
+        <Card className="shadow-lg p-3 bg-secondary bg-gradient">
           {inputOpen && (
             <ExpenseInput
               onSubmit={formInputData}
@@ -159,8 +174,8 @@ const Expenses = () => {
         </Card>
       </Container>
 
-      <Container className="mt-4 mb-5" style={{ maxWidth: "700px" }}>
-        <Card className="shadow p-3 bg-secondary bg-gradient">
+      <Container className="mt-4 pb-5" style={{ maxWidth: "700px" }}>
+        <Card className="shadow-lg p-3 bg-secondary bg-gradient">
           <div className="d-flex justify-content-between">
             <p>Filter</p>
             <Form.Select
@@ -179,12 +194,31 @@ const Expenses = () => {
             </Form.Select>
           </div>
 
-          {expenseData.length === 0 && (
+          {isPremium && (
+            <div className=" m-1">
+              <Button
+                variant="outline-dark"
+                size="sm"
+                onClick={activatePremiumHandler}
+              >
+                Activate Premium
+              </Button>
+            </div>
+          )}
+
+          {!expenseData.length === 0 && (
             <p className="text-center">No Expense data. Add expenses.</p>
           )}
           <ListGroup as="ol" className="rounded-4">
             {listItems}
           </ListGroup>
+          <a
+            id="csvLink"
+            download="exepense-data.csv"
+            onClick={downloadhandler}
+          >
+            Download CSV file!
+          </a>
         </Card>
       </Container>
     </React.Fragment>

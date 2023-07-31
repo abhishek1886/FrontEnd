@@ -13,7 +13,6 @@ const ExpenseInput = (props) => {
   const { value } = props;
 
   useEffect(() => {
-    console.log(props.isEdit);
     if (value) {
       setFormData({
         amount: value.amount,
@@ -39,7 +38,6 @@ const ExpenseInput = (props) => {
       const inputData = {
         ...formData,
         id: Math.random().toString(),
-        isPremium: Number(formData.amount) > 10000 ? true : false,
       };
       props.onSubmit(inputData);
     } else {

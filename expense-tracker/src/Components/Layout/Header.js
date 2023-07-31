@@ -1,14 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Navbar, Container, Button } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Navbar, Container, Button, Image } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { authActions } from "../../store/auth";
+import themeActions from "../../store/themeReducer";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
 const Header = () => {
   const [isVerified, setIsVerified] = useState(false);
-  const {isLoggedIn, token } = useSelector(state => state.auth);
+  const { isLoggedIn, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   // const [isVerified, setIsVerified] = useState(false);
 
@@ -44,13 +45,24 @@ const Header = () => {
   };
 
   const logoutHandler = () => {
-    dispatch(authActions.logout())
-  }
+    dispatch(authActions.logout());
+  };
+
+  const themeToggle = () => {
+    console.log(themeActions);
+    // dispatch(themeActions.themeToggle());
+    const bodyElement = document.body;
+    bodyElement.dataset.bsTheme =
+      bodyElement.dataset.bsTheme === "light" ? "dark" : "light";
+    
+  };
   return (
     <header>
-      <Navbar bg="black" variant="dark" expand="sm" className="mb-3">
+      <Navbar bg="black" variant="dark" expand="sm">
         <Container className="d-flex justify-content-between">
-          <Navbar.Brand as={Link} to="/home">Expense Tracker</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/home">
+            Expense Tracker
+          </Navbar.Brand>
           <div className="d-flex gap-1">
             {isLoggedIn && !isVerified && (
               <Button variant="outline-secondary" onClick={verifyUserHandler}>
@@ -62,6 +74,15 @@ const Header = () => {
                 Logout
               </Button>
             )}
+            <div className="d-flex align-items-center">
+              <Image
+                src="https://static.thenounproject.com/png/2853779-200.png"
+                roundedCircle
+                className="p-1 bg-secondary"
+                style={{ height: "30px", cursor: "pointer" }}
+                onClick={themeToggle}
+              />
+            </div>
           </div>
         </Container>
       </Navbar>

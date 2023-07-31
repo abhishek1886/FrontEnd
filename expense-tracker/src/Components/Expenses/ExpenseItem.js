@@ -99,16 +99,6 @@ const ExpenseItem = (props) => {
           >
             Edit
           </Button>
-          {props.isPremium && (
-            <Button
-              variant="info"
-              className="p-0 fw-bold"
-              style={{ width: "3rem", fontSize: "10px", height: "20px" }}
-              onClick={editButtonHandler}
-            >
-              Premium
-            </Button>
-          )}
         </div>
       </div>
     </ListGroup.Item>
