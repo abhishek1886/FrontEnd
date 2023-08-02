@@ -38,7 +38,7 @@ const ForgotPassword = (props) => {
       className="my-5 mx-auto"
       style={{ maxWidth: "450px", marginTop: "100px" }}
     >
-      <Card className="p-3 pt-5 text-center">
+      <Card className="bg-secondary p-3 pt-5 text-center">
         <p>Enter the email with which you have registered.</p>
         <Form.Floating>
           <Form.Control

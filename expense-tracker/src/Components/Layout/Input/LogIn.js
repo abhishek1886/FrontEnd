@@ -75,7 +75,7 @@ const Login = () => {
           className="mx-5 mx-auto"
           style={{ maxWidth: "450px", marginTop: "150px" }}
         >
-          <Card className="shadow p-3 px-4">
+          <Card className="bg-secondary shadow p-3 px-4">
             <h2 className="py-3 text-center">Login</h2>
             <Form onSubmit={submitHandler}>
               <Form.Floating className="mb-2">
