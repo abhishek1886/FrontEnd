@@ -1,19 +1,19 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import Card from "../UI/Card";
 import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
+import { cartActions } from "../../store/cartReducer";
 
 const Cart = (props) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
-
+  const dispatch = useDispatch()
   let items;
   if (cartItems.length > 0) {
-    console.log(cartItems);
     items = cartItems.map((item) => {
       const total = item.quantity * item.price;
       
-      console.log(total);
       return (
         <CartItem
           key={item.id}
@@ -26,6 +26,23 @@ const Cart = (props) => {
       );
     });
   }
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try{
+        const res = await fetch("https://react-http-7ab92-default-rtdb.firebaseio.com/cart.json");
+        if(!res.ok) {
+          throw new Error(res.error.message);
+        }
+
+        const data = await res.json();
+        dispatch(cartActions.addItems(data.cartItems));
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    fetchCartData();
+  }, [])
   return (
     <Card className={classes.cart}>
       <h2>Your Shopping Cart</h2>

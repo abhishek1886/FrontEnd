@@ -21,10 +21,8 @@ const CartItem = (props) => {
     dispatch(cartActions.removeItems(props.id));
   };
 
-  console.log(total, price);
-
   return (
-    <li className={classes.item}>
+    <li className={classes.item} key={id}>
       <header>
         <h3>{title}</h3>
         <div className={classes.price}>

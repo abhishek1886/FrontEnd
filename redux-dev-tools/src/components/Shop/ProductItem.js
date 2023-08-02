@@ -10,7 +10,6 @@ const ProductItem = (props) => {
 
   const addItemHandler = () => {
     dispatch(cartActions.addItems(props));
-    console.log(props);
   }
   return (
     <li className={classes.item}>

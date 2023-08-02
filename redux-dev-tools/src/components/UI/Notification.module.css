@@ -1,0 +1,17 @@
+.notification {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 3rem;
+  margin: 0;
+  align-items: center;
+  background-color: rgb(68, 72, 210);
+}
+
+.notification.error {
+  background-color: red;
+}
+
+.notification.success {
+  background-color: #1ad1b9;
+}
+
