@@ -129,14 +129,14 @@ const Expenses = () => {
 
   const downloadhandler = (e) => {
     //e.preventDefault();
-    
+
     const csvLink = document.getElementById("csvLink");
     function makeCSV(data) {
       if (data.length === 0) {
         return "";
       }
 
-      const keys = ['amount', 'description', 'category', 'date']
+      const keys = ["amount", "description", "category", "date"];
 
       const rows = [keys, ...data.map((item) => keys.map((key) => item[key]))];
 
@@ -149,7 +149,7 @@ const Expenses = () => {
     <React.Fragment>
       <Container
         className="pt-5 mb-2 mr-auto ml-auto"
-        style={{ maxWidth: "700px"}}
+        style={{ maxWidth: "700px" }}
       >
         <Card className="shadow-lg p-3 bg-secondary bg-gradient">
           {inputOpen && (

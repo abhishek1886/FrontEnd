@@ -26,7 +26,6 @@ const SignUp = () => {
       e.preventDefault();
 
       const inputData = { ...formData, returnSecureToken: true };
-      console.log(inputData);
       if (inputData.password !== inputData.confirmPassword) {
         alert("please set correct password");
       } else {
@@ -50,10 +49,11 @@ const SignUp = () => {
             confirmPassword: "",
           });
         } else {
-          const data = res.json();
+          const data = await res.json();
           let errorMessage = "Something went wrong! Try again."
           if(data && data.error && data.error.message){
             errorMessage = data.error.message;
+            
           }
           throw new Error(errorMessage);
         }

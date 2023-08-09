@@ -22,6 +22,10 @@ function App() {
       return;
     }
 
+    if(!isInitial && cart.length === 0){
+      return;
+    }
+
     dispatch(sendCartData(cart));
   }, [cart, dispatch]);
 

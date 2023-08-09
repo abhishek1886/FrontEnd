@@ -2,15 +2,17 @@ import React, { useContext, useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Navbar, Container, Button, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { authActions } from "../../store/auth";
-import themeActions from "../../store/themeReducer";
+import {themeActions} from "../../store/themeReducer";
+import { expenseActions } from "../../store/expenses";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
 const Header = () => {
   const [isVerified, setIsVerified] = useState(false);
   const { isLoggedIn, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const history = useHistory();
   // const [isVerified, setIsVerified] = useState(false);
 
   // useEffect(() => {
@@ -46,14 +48,15 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch(authActions.logout());
+    history.push('/');
+    dispatch(expenseActions.deleteExpense(null));
   };
 
   const themeToggle = () => {
-    console.log(themeActions);
-    // dispatch(themeActions.themeToggle());
-    const bodyElement = document.body;
-    bodyElement.dataset.bsTheme =
-      bodyElement.dataset.bsTheme === "light" ? "dark" : "light";
+    dispatch(themeActions.themeToggle());
+    // const bodyElement = document.body;
+    // bodyElement.dataset.bsTheme =
+    //   bodyElement.dataset.bsTheme === "light" ? "dark" : "light";
     
   };
   return (

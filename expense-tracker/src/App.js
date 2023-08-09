@@ -49,6 +49,9 @@ const App = () => {
               <Expenses />
             </Route>
           )}
+          <Route path="*">
+            <Redirect to='/'/>
+          </Route>
         </Switch>
       </main>
     </React.Fragment>

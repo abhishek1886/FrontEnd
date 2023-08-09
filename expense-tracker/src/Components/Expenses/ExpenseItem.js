@@ -66,7 +66,7 @@ const ExpenseItem = (props) => {
           <h4 className="d-none d-sm-block">{props.description}</h4>
 
           <div className="d-sm-none">
-            <Badge>{`${date.getDate()} - ${
+            <Badge bg='secondary'>{`${date.getDate()} - ${
               monthNames[date.getMonth()]
             } - ${date.getFullYear()}`}</Badge>
             <p>{props.description}</p>

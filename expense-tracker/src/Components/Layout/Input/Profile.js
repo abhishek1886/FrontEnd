@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 
 import { Container, Form, Card, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import AuthContext from "../../auth/auth-context";
 
 const key = "AIzaSyCnYaoFCa20-m3PKXmlMEhGvLDqPbJ0TzA";
 
@@ -11,7 +10,6 @@ const Profile = () => {
     name: "",
     url: "",
   });
-  const authCtx = useContext(AuthContext);
   const history = useHistory();
 
   const formInputHandler = (e) => {
@@ -23,8 +21,9 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (authCtx.isLoggedIn) {
-      const payload = { idToken: authCtx.token };
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = { idToken: localStorage.getItem('token') };
       fetch(
         `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${key}`,
         {
@@ -58,9 +57,9 @@ const Profile = () => {
 
       const inputData = { ...formData };
       const payload = {
-        idToken: authCtx.token,
-        displayName: formData.name,
-        photoUrl: formData.url,
+        idToken: localStorage.getItem('token'),
+        displayName: inputData.name,
+        photoUrl: inputData.url,
         deleteAttribute: [],
         returnSecureToken: true,
       };
