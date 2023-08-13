@@ -32,7 +32,6 @@ const Login = () => {
       e.preventDefault();
 
       const inputData = { ...formData, returnSecureToken: true };
-      console.log(inputData);
 
       const res = await fetch(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`,
