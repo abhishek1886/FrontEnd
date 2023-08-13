@@ -29,17 +29,37 @@ const DUMMY_MEETUPS = [
   },
 ];
 
-const Details = () => {
-  const router = useRouter();
-  const id = router.query.meetupId;
-
-  const data = DUMMY_MEETUPS.find((data) => data.id === id);
+const Details = (props) => {
+  const { meetupDetails } = props;
   return (
     <>
-      {data && <MeetupDetails data={data} />}
-      {!data && <p>Something went wrong.</p>}
+      {meetupDetails ? (
+        <MeetupDetails data={meetupDetails} />
+      ) : (
+        <p>Something went wrong.</p>
+      )}
     </>
   );
 };
+
+export async function getStaticPaths() {
+  const paths = DUMMY_MEETUPS.map((meetup) => ({ params: { meetupId: meetup.id }}));
+
+  return {
+    paths,
+    fallback: true,
+  }
+}
+
+export async function getStaticProps(context) {
+  const meetupId = context.params.meetupId;
+
+  const data = DUMMY_MEETUPS.find((data) => data.id === meetupId);
+  return {
+    props: {
+      meetupDetails: data ? data : null,
+    },
+  };
+}
 
 export default Details;
