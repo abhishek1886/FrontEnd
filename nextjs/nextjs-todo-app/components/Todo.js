@@ -4,12 +4,13 @@ import React, { Fragment, useRef, useState } from "react";
 const Todo = (props) => {
   const inputRef = useRef();
   
-  const todoListItem = props.todoData?.map(todo => ( !todo.isCompleted &&
+  const todoListItem = props.todoData.map(todo => ( !todo.isCompleted &&
     <TodoItem
       key={todo.id}
       id={todo.id}
       isCompleted={todo.isCompleted}
       title={todo.title} 
+      onDelete={props.onDelete}
      />
   ))
 

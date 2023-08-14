@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 
 import Header from "@/components/Header";
 import Todo from "@/components/Todo";
+import { unstable_batchedUpdates } from "react-dom";
 
 export default function Home(props) {
   const [todos, setTodos] = useState([]);
@@ -18,19 +19,38 @@ export default function Home(props) {
     });
 
     const resData = await response.json();
-    setTodos(prev => ([ {...data, id: resData._id }, ...prev ]));
+    setTodos((prev) => [{ ...data, id: resData._id }, ...prev]);
   };
 
   useEffect(() => {
     setTodos(props.todoData);
-  }, [])
+  }, []);
+
+  const deleteTodoHandler = async (id) => {
+    const updatedData = todos.filter(todo => todo.id !== id);
+    setTodos(updatedData);
+
+    const response = await fetch('http://localhost:3000/api/delete-todo', {
+      method: "DELETE",
+      body: JSON.stringify({ id: id}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await response.json();
+    console.log(data);
+  };
 
   return (
     <Fragment>
       <Header />
 
       <main>
-        <Todo onClick={addTodoHandler} todoData={todos} />
+        <Todo
+          onClick={addTodoHandler}
+          todoData={todos}
+          onDelete={deleteTodoHandler}
+        />
       </main>
     </Fragment>
   );
@@ -41,15 +61,14 @@ export async function getStaticProps() {
 
   const res = await response.json();
   const data = res.data;
-  
 
   return {
     props: {
-      todoData: data.reverse().map(todo => ({
+      todoData: data.reverse().map((todo) => ({
         title: todo.title,
         isCompleted: todo.isCompleted,
-        id: todo._id
-      }))
+        id: todo._id,
+      })),
     },
     revalidate: 1,
   };
