@@ -2,7 +2,6 @@
 import MeetupList from "@/components/meetups/MeetupList";
 
 const HomePage = (props) => {
-  console.log(props.meetups);
 
   return <MeetupList meetups={props.meetups} />;
 };
@@ -23,6 +22,7 @@ export async function getStaticProps() {
         id: meetup._id.toString()
       })),
     },
+    revalidate: 1
   };
 }
 
