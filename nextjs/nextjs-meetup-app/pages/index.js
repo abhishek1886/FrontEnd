@@ -1,9 +1,18 @@
+import Head from "next/head";
+import { Fragment } from "react";
 
 import MeetupList from "@/components/meetups/MeetupList";
 
 const HomePage = (props) => {
-
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>The MeetUp List</title>
+        <meta name='description' content="content" />
+      </Head>
+      <MeetupList meetups={props.meetups} />;
+    </Fragment>
+  );
 };
 
 export async function getStaticProps() {
@@ -19,10 +28,10 @@ export async function getStaticProps() {
         title: meetup.title,
         address: meetup.address,
         image: meetup.image,
-        id: meetup._id.toString()
+        id: meetup._id.toString(),
       })),
     },
-    revalidate: 1
+    revalidate: 1,
   };
 }
 
