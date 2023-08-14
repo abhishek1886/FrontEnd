@@ -1,10 +1,10 @@
 import TodoItem from "@/components/TodoItem";
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useRef, useState } from "react";
 
 const Todo = (props) => {
   const inputRef = useRef();
   
-  const todoListItem = props.todoData?.map(todo => (
+  const todoListItem = props.todoData?.map(todo => ( !todo.isCompleted &&
     <TodoItem
       key={todo.id}
       id={todo.id}

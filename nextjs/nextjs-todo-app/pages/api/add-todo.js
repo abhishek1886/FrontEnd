@@ -2,7 +2,6 @@ import { MongoClient } from "mongodb";
 
 async function handler(req, res) {
   if (req.method === "POST") {
-    console.log('api called');
     const data = req.body;
 
     const client = await MongoClient.connect(
@@ -14,10 +13,11 @@ async function handler(req, res) {
     const result = await todoCollection.insertOne(data);
 
     client.close();
-    console.log(result);
 
     res.status(201).json({ message: "successfully added todo!", _id: result.insertedId });
+    console.log(result, typeof(result.insertedId));
   }
+
 }
 
 export default handler;
